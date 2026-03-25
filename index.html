@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>오토워커 1기 프리미엄반 다이제스트</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f4f5f7;--surface:rgba(255,255,255,0.88);--text:#1a1a2e;--text-sub:#666;
+  --accent:#6c5ce7;--accent2:#00cec9;--accent-soft:rgba(108,92,231,0.10);
+  --border:rgba(0,0,0,0.08);--radius:16px;--radius-sm:10px;
+  --shadow:0 4px 24px rgba(0,0,0,0.06);--glass:rgba(255,255,255,0.6);
+  --transition:0.3s cubic-bezier(0.4,0,0.2,1);
+}
+body.dark{
+  --bg:#0f0f23;--surface:rgba(30,30,50,0.88);--text:#e4e4e4;--text-sub:#999;
+  --border:rgba(255,255,255,0.08);--shadow:0 4px 24px rgba(0,0,0,0.3);
+  --glass:rgba(30,30,50,0.6);
+}
+body{font-family:'Pretendard Variable',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;transition:background var(--transition),color var(--transition)}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:1000;transition:width 0.1s}
+.container{max-width:760px;margin:0 auto;padding:20px 16px 80px}
+header{text-align:center;padding:40px 0 20px}
+header h1{font-size:1.8em;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header .subtitle{color:var(--text-sub);margin-top:4px;font-size:0.95em}
+header .date-range{color:var(--text-sub);font-size:0.85em;margin-top:2px}
+.dark-toggle{position:absolute;top:20px;right:20px;background:var(--surface);border:1px solid var(--border);border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:1.2em;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);transition:var(--transition)}
+.dark-toggle:hover{transform:scale(1.1)}
+.tab-bar-wrap{position:sticky;top:0;z-index:99;background:var(--bg);padding:10px 0;transition:background var(--transition)}
+.tab-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{padding:8px 16px;border:1px solid var(--border);border-radius:20px;background:var(--surface);color:var(--text);cursor:pointer;white-space:nowrap;font-size:0.88em;font-weight:600;backdrop-filter:blur(10px);transition:var(--transition)}
+.tab-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.day-title{font-size:1.35em;font-weight:700;margin:24px 0 16px;color:var(--text)}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.stat-pill{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center;backdrop-filter:blur(10px)}
+.stat-icon{font-size:1.4em;margin-bottom:4px}
+.stat-pill .num{font-size:1.6em;font-weight:800;color:var(--accent)}
+.stat-label{font-size:0.8em;color:var(--text-sub);margin-top:2px}
+.section-title{font-size:1.1em;font-weight:700;margin:28px 0 12px;padding-left:4px}
+.ann-list{display:flex;flex-direction:column;gap:10px}
+.ann-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;backdrop-filter:blur(10px)}
+.ann-card.pri-high{border-left:4px solid #e74c3c}
+.ann-card.pri-medium{border-left:4px solid #f39c12}
+.ann-card.pri-low{border-left:4px solid var(--accent2)}
+.ann-badge{font-size:0.72em;font-weight:700;color:#e74c3c;margin-bottom:4px}
+.ann-content{font-size:0.92em;line-height:1.5}
+.ann-meta{font-size:0.78em;color:var(--text-sub);margin-top:6px}
+.qa-list{display:flex;flex-direction:column;gap:10px}
+.qa-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:0;cursor:pointer;overflow:hidden;backdrop-filter:blur(10px);transition:var(--transition)}
+.qa-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.qa-header{display:flex;align-items:center;gap:10px;padding:14px 16px}
+.qa-q-icon{width:28px;height:28px;border-radius:8px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85em;flex-shrink:0}
+.qa-question{flex:1;font-size:0.92em;font-weight:600}
+.qa-count{background:var(--accent-soft);color:var(--accent);border-radius:20px;padding:2px 10px;font-size:0.78em;font-weight:700;white-space:nowrap}
+.qa-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.qa-card.open .qa-body{max-height:400px}
+.qa-answer{padding:0 16px 14px;border-top:1px solid var(--border);padding-top:12px}
+.qa-answer-badge{display:inline-block;background:var(--accent2);color:#fff;border-radius:12px;padding:1px 10px;font-size:0.72em;font-weight:700;margin-bottom:6px}
+.qa-answer p{font-size:0.9em;color:var(--text-sub);line-height:1.5}
+.qa-tags{padding:0 16px 12px;display:flex;gap:6px;flex-wrap:wrap}
+.qa-tag{background:var(--accent-soft);color:var(--accent);border-radius:12px;padding:2px 8px;font-size:0.72em;font-weight:600}
+.insight-list{display:flex;flex-direction:column;gap:10px}
+.insight-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;backdrop-filter:blur(10px)}
+.insight-cat{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:12px;padding:2px 10px;font-size:0.72em;font-weight:700;margin-bottom:6px}
+.insight-content{font-size:0.92em;line-height:1.55}
+.insight-author{font-size:0.78em;color:var(--text-sub);margin-top:6px;text-align:right}
+.timeline{position:relative;padding-left:28px;margin-top:8px}
+.timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2))}
+.tl-item{position:relative;padding:10px 0 10px 18px;font-size:0.9em}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);position:absolute;left:-23px;top:14px;box-shadow:0 0 0 3px var(--accent-soft)}
+.tl-time{font-size:0.78em;color:var(--accent);font-weight:700}
+.tl-content{margin-top:2px;line-height:1.4}
+.tl-tag{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:8px;padding:1px 6px;font-size:0.72em;font-weight:600;margin-right:4px}
+.faq-chart{margin-bottom:24px}
+.faq-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.faq-bar-label{width:180px;font-size:0.82em;text-align:right;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.faq-bar-wrap{flex:1;background:var(--border);border-radius:8px;height:26px;overflow:hidden}
+.faq-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;padding-left:8px;color:#fff;font-size:0.75em;font-weight:700;min-width:fit-content;transition:width 1s ease}
+.faq-answers{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.faq-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px}
+.faq-item strong{font-size:0.92em;color:var(--accent)}
+.faq-item p{font-size:0.88em;color:var(--text-sub);margin-top:6px;line-height:1.5}
+.link-cat{font-size:1em;font-weight:700;margin:20px 0 10px;color:var(--text)}
+.link-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.link-card{display:block;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;text-decoration:none;color:var(--text);backdrop-filter:blur(10px);transition:var(--transition)}
+.link-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--accent)}
+.link-card.is-expired{opacity:0.5;border-style:dashed}
+.link-title{font-size:0.9em;font-weight:600}
+.link-meta{font-size:0.75em;color:var(--text-sub);margin-top:4px}
+.fab-wrap{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:90}
+.fab{width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;font-size:1.2em;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:var(--transition);opacity:0;pointer-events:none}
+.fab.visible{opacity:1;pointer-events:auto}
+.fab:hover{transform:scale(1.1)}
+footer{text-align:center;padding:40px 0 20px;color:var(--text-sub);font-size:0.82em}
+footer a{color:var(--accent)}
+.fade-in,.fade-in-qa{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fade-in.visible,.fade-in-qa.visible{opacity:1;transform:translateY(0)}
+@media(max-width:520px){
+  header h1{font-size:1.3em}
+  .container{padding:12px 10px 60px}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .faq-bar-label{width:100px;font-size:0.72em}
+  .link-grid{grid-template-columns:1fr}
+  .day-title{font-size:1.1em}
+}
+@media(prefers-reduced-motion:reduce){
+  .fade-in,.fade-in-qa{opacity:1;transform:none;transition:none}
+  .tl-dot{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<div class="container">
+<header style="position:relative">
+  <h1>오토워커 1기 프리미엄반 다이제스트</h1>
+  <p class="subtitle">💬 5,283개의 메시지에서 핵심만 추출</p>
+  <p class="date-range">2026-03-18 ~ 2026-03-25</p>
+  <button class="dark-toggle" id="dark-toggle" title="다크모드">🌙</button>
+</header>
+<div class="tab-bar-wrap"><div class="tab-bar">
+<button class="tab-btn active" onclick="switchTab('day-0')">3/18 (수)</button>
+<button class="tab-btn" onclick="switchTab('day-1')">3/19 (목)</button>
+<button class="tab-btn" onclick="switchTab('day-2')">3/20 (금)</button>
+<button class="tab-btn" onclick="switchTab('day-3')">3/21 (토)</button>
+<button class="tab-btn" onclick="switchTab('day-4')">3/22 (일)</button>
+<button class="tab-btn" onclick="switchTab('day-5')">3/23 (월)</button>
+<button class="tab-btn" onclick="switchTab('day-6')">3/24 (화)</button>
+<button class="tab-btn" onclick="switchTab('day-7')">3/25 (수)</button>
+<button class="tab-btn" onclick="switchTab('faq')">FAQ</button>
+<button class="tab-btn" onclick="switchTab('links')">링크 모음</button>
+</div></div>
+<div id="day-0" class="tab-content" style="display:block">
+  <h2 class="day-title">3월 18일 수요일</h2>
+  <div class="stats-row">
+  <div class="stat-pill"><div class="stat-icon">💬</div><div class="num" data-target="556">0</div><div class="stat-label">메시지</div></div>
+  <div class="stat-pill"><div class="stat-icon">✅</div><div class="num" data-target="28">0</div><div class="stat-label">답변</div></div>
+  <div class="stat-pill"><div class="stat-icon">⏰</div><div class="stat-label">오후 2:32~오후 11:09</div></div>
+  <div class="stat-pill"><div class="stat-icon">🏆</div><div class="stat-label">MVP: 개발남 노씨(오토워커)</div></div>
+</div>
+  <div class="section-title">📢 주요 공지</div>
+<div class="ann-list"><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">오토위키(https://wiki.autoworkers.ai/) 개설 공지: 카톡방 이틀치 대화 정보 및 공지사항(컴퓨터 사양 안내 포함)을 정리해 게시. 벽타기 없이 오토위키에서 정보 확인 가능.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 4:08</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">정규강의 일정: 매주 목요일 오후 7시. 프리미엄반 피드백&amp;AI특강 3/24, 4/7, 4/21, 4/28(화요일 오후 7시). 다시보기 1년 이상 무제한 제공(금요일 낮 업로드).</div>
+  <div class="ann-meta">공지방 자동 게시 · 오후 3:55</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">내일(3/19) 첫 강의는 스토리형 대본 에이전트 수업. 핵심 내용 5시간 이내 완료 + 질문 시간 3시간 별도 제공. 강사 제작 에이전트 3개 공유 예정(2주차 정보형 카테고리 때 추가 공개).</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 4:23</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">네이버 카페 등업은 담당자가 순차 처리 중. 카페 가입은 채널톡 초대장 링크(https://naver.me/xsZACT0D)를 통해 신청해야 함. 일반 공지 링크로는 가입 불가.</div>
+  <div class="ann-meta">디하클 스태프 둘리 · 오후 6:21</div>
+</div><div class="ann-card fade-in pri-low">
+  <div class="ann-badge">🚨 LOW</div>
+  <div class="ann-content">10시경 오늘 카톡방 내용 전체를 추가 정리해 오토위키에 업로드 예정.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 7:11</div>
+</div></div>
+  <div class="section-title">❓ 핵심 Q&A</div>
+<div class="qa-list"><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">렌더링은 클라우드에서 처리되나요, 로컬에서 처리되나요? PC 사양은 얼마나 필요한가요?</div>
+    <div class="qa-count">4회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>렌더링은 로컬 캡컷에서 수행. 서버비 절감 및 휴먼터치(자유도) 확보 목적. 최소 RAM 8GB 이상 권장(CPU보다 RAM이 핵심). 16GB이면 충분하며 그래픽카드는 불필요. 캡컷은 동시 내보내기 불가, 순차 처리. 렌더링 중 다른 작업은 가능.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">렌더링</span><span class="qa-tag">PC사양</span><span class="qa-tag">캡컷</span><span class="qa-tag">RAM</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">노트북 한 대로 가능한가요? 추가 장비(모니터, 포터블 모니터)가 필요한가요?</div>
+    <div class="qa-count">6회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>노트북 한 대로 충분. 강사는 노트북+외부 모니터 27인치 조합 추천. 포터블 모니터(~10만 원 초반)나 중고 태블릿을 외부 모니터로 연결 가능. 컴퓨터 교체보다 포터블 모니터 먼저 추천. 사양 고민은 오토위키 공지의 최소/권장 사양을 클로드에 붙여넣고 구매 조건 질문하면 됨.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">노트북</span><span class="qa-tag">모니터</span><span class="qa-tag">포터블모니터</span><span class="qa-tag">장비세팅</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">캡컷 유료 버전이 필요한가요? 브루(Vrew)는 필요한가요?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>캡컷 무료 버전으로도 사용 가능. 브루(Vrew)는 이번 강의 필수 도구 목록에 없음—기존 연결제 이용 중이라면 해지 고려 가능.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">캡컷</span><span class="qa-tag">브루</span><span class="qa-tag">Vrew</span><span class="qa-tag">도구</span><span class="qa-tag">유료여부</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">줌(Zoom) 강의 참여 시 결제가 필요한가요?</div>
+    <div class="qa-count">1회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>줌은 무료. 강의 전 공지방에 링크가 올라오면 해당 링크로 입장하면 됨.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">줌</span><span class="qa-tag">강의참여</span><span class="qa-tag">무료</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">유튜브 채널을 미리 만들어 두어야 하나요? 기존 구글 계정에 만들어야 하나요?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>강의 전에 채널 1개 만들어 두면 좋음. 기존 유튜브 프리미엄 계정과 분리해 새 구글 계정으로 개설 권장. 목표 채널 수만큼 계정 생성은 이후 단계별로 진행. 카페의 유스타터 강의 선행 권장.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">유튜브채널</span><span class="qa-tag">구글계정</span><span class="qa-tag">채널개설</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드 프로 한도(사용량 초과)는 어떻게 관리하나요? Opus vs Sonnet 어떻게 써야 하나요?</div>
+    <div class="qa-count">4회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>연습·개발 단계에서는 Sonnet 사용 권장(비용 절감). Opus는 품질이 높지만 5시간 한도 소진이 빠름. 529 에러는 서버 장애, 사용량 초과와 구분 필요. 맥스 요금제는 한도가 더 넓음. 다른 AI(Gemini 등)로 초벌 작업 후 클로드에서 중요 작업에 집중하는 혼용 전략 유효.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">클로드</span><span class="qa-tag">사용량</span><span class="qa-tag">Opus</span><span class="qa-tag">Sonnet</span><span class="qa-tag">요금제</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드 코드로 크롬 확장 프로그램을 만들 수 있나요?</div>
+    <div class="qa-count">1회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>클로드 코드로 크롬 확장 프로그램 제작 가능.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">클로드코드</span><span class="qa-tag">크롬확장</span><span class="qa-tag">바이브코딩</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">세컨드 브레인 노션은 별도 구매가 필요한가요?</div>
+    <div class="qa-count">1회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>노션은 별도 구매 불필요. 강의에서는 노션과 로컬 파일 시스템을 병행 활용할 예정. 기존 노션 계정이 있으면 그대로 사용 가능.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">노션</span><span class="qa-tag">세컨드브레인</span><span class="qa-tag">도구</span></div>
+  </div>
+</div></div>
+  <div class="section-title">💡 인사이트 & 팁</div>
+<div class="insight-list"><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 클로드와 마이크로 음성 대화 활용: 타이핑 없이 마이크로 지시하면 직원 쓰듯 효율적으로 작업 가능. 카페 공지 사양 텍스트를 그대로 붙여넣고 &#x27;이 조건에 맞는 데스크탑 추천해줘&#x27;라고 물으면 전문가 수준 답변 즉시 확인 가능.</div>
+  <div class="insight-author">— 박@미(마리맘) / 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 컴퓨터 신규 구매보다 포터블 모니터 우선 추천: 기존 노트북 사양이 문제 없다면 27인치 외부 모니터 1대 추가(~10만 원 초반)로 듀얼 화면 구성 시 작업 효율 체감 상승. 태블릿 구형 모델도 무선 듀얼 모니터로 활용 가능.</div>
+  <div class="insight-author">— 디하클 스태프 둘리 / 김@윤(엄마치킨이먹고싶어요)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 클로드 사용량 절약 전략: 연습 시 Sonnet 모델로 시작, 실제 제작·완성 단계에서만 Opus 투입. Gemini 등 타 AI로 초벌 작업 후 클로드에 최종 작업 집중하면 한도 소진을 최소화할 수 있음.</div>
+  <div class="insight-author">— 조교 나물쓰 / 김@윤(엄마치킨이먹고싶어요)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 카톡방 벽타기 대신 오토위키 활용: 강사가 카톡방 대화 내용을 오토위키에 주기적으로 정리 업로드. 수백 건 대화 소급 확인 없이 위키에서 핵심 정보 즉시 검색 가능.</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 카톡방 내용 정리 자동화: 카카오톡 &#x27;대화 내보내기&#x27;로 텍스트 파일 추출 후 Gemini 또는 클로드에 업로드하면 수백 건 대화도 즉시 요약 정리 가능. 벽타기 스트레스 해소에 직결.</div>
+  <div class="insight-author">— 이@린(보부상)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 네이버 카페 가입은 반드시 채널톡 초대 링크 경유: 공지방 링크로 직접 접속 시 &#x27;멤버 아님&#x27; 오류 발생. 채널톡에서 발송된 초대장 링크(naver.me/xsZACT0D)로 가입 신청 후 운영진 순차 승인 대기 필요.</div>
+  <div class="insight-author">— 디하클 스태프 둘리</div>
+</div></div>
+  <div class="section-title">🕐 타임라인</div>
+<div class="timeline"><div class="tl-item fade-in">
+  <div class="tl-time">오후 2:32~3:10</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 개강 첫날 입장 러시. 렌더링 방식(로컬 처리)·캡컷 동시 내보내기 불가 안내, RAM 최소 8GB 권장 사양 논의 시작. 클로드 마이크 음성 대화 팁 공유(마리맘). 포터블 모니터 첫 언급 및 추천.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 3:40~4:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 오토위키(wiki.autoworkers.ai) 오픈 공지 및 컴퓨터 사양 페이지 안내. 강의 커리큘럼 확인 요청·1주차 스토리형/2주차 정보형 에이전트 구분 정리. 조교 나물쓰 부방장 취임. AI 서버 비용 결제 방식 및 캡컷 유무료 문의 집중.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 4:50~6:45</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">일상</span> 신규 수강생 대거 입장 및 환영 인사. 초고사양 PC(RTX 5090, RAM 128GB, 57인치 모니터) 인증으로 분위기 고조. 노트북 구매 상담 및 다나와 링크 검토. 네이버 카페 가입 오류(초대장 링크 필요) 반복 해결. 수냉·공랭 쿨링 주제로 자유 토크.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 7:00~8:10</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">질문</span> 카톡 벽타기 고충 토로 및 오토위키 대안 재안내. 세컨드 브레인 노션 활용 여부 질문·강사 답변(별도 구매 불필요). PPT 자료 수령 방법 문의. 카톡 내용 AI로 정리하는 팁(대화 내보내기→Gemini/Claude) 공유.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 9:10~10:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 강의 난이도 우려 및 격려 분위기. 클로드 코드 바이브코딩 기대감 표출. 채널 탐색기 엔터키 기능 개선 요청→강사 3주차 때 반영 약속. 유튜브 채널 개설 및 계정 분리 전략 안내. 클로드 프로 Opus 사용량 초과 문제 본격 등장.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 10:00~11:09</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">질문</span> 클로드 서버 529 에러(일시 서버 장애) 신고 다수. Opus vs Sonnet vs 맥스 요금제 비교 논의. 안티그래비티 울트라 요금제 전환 고민. WQHD 와이드 모니터 업무 효율 팁 공유. 스킬 사용 시 컨텍스트 소진 빠른 현상 확인. 클로드 스킬 활용 후기로 마감.</div>
+</div></div>
+</div>
+<div id="day-1" class="tab-content" style="display:none">
+  <h2 class="day-title">3월 19일 목요일</h2>
+  <div class="stats-row">
+  <div class="stat-pill"><div class="stat-icon">💬</div><div class="num" data-target="296">0</div><div class="stat-label">메시지</div></div>
+  <div class="stat-pill"><div class="stat-icon">✅</div><div class="num" data-target="28">0</div><div class="stat-label">답변</div></div>
+  <div class="stat-pill"><div class="stat-icon">⏰</div><div class="stat-label">오전 12:15~오후 11:04</div></div>
+  <div class="stat-pill"><div class="stat-icon">🏆</div><div class="stat-label">MVP: 개발남 노씨(오토워커)</div></div>
+</div>
+  <div class="section-title">📢 주요 공지</div>
+<div class="ann-list"><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">프리미엄반 카톡방은 프반 전용 피드백·과제 공지 및 질문용이며, 일반 사담/질문은 사담방에서 진행 요망</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오전 9:12</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">정규강의 1강은 오후 7시 Zoom 진행. 줌 링크: https://us06web.zoom.us/j/84893604275?pwd=O05KB949s4G7FkOcDCO2GI4NSZKhFX.1 / 회의ID: 848 9360 4275 / 암호: 629075</div>
+  <div class="ann-meta">크리스(디하클스태프) · 오후 6:54</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">오늘 강의 전 대부분의 사전 질문은 7시 강의에서 일괄 답변 예정. 질문을 미리 준비해 달라</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 3:48</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">강의 녹화본은 다음날 점심 12시에 카페 업로드</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오전 9:59</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">강의 자료(노션): https://hypnotic-concrete-dcf.notion.site/328c8b66674081b7a416f5f49154a721</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 6:32</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">닉네임 형식 미준수 수강생은 등급 미처리. 공지 닉네임 양식에 맞게 수정 필요</div>
+  <div class="ann-meta">조교 나물쓰 · 오후 8:04</div>
+</div></div>
+  <div class="section-title">❓ 핵심 Q&A</div>
+<div class="qa-list"><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">이용 기간(3개월)은 크레딧 이월 없이 만 3개월로 계산되는가?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>모든 것은 합리적으로 처리되며, 만 3개월 기준으로 적용된다</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">이용기간</span><span class="qa-tag">크레딧</span><span class="qa-tag">구독</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">강의 못 들었을 때 녹화본은 언제 업로드되나?</div>
+    <div class="qa-count">3회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>다음날 점심 12시에 카페에 업로드된다</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">녹화본</span><span class="qa-tag">다시보기</span><span class="qa-tag">강의</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드(Claude) 구독은 연결제 vs 월결제 어느 것이 좋은가?</div>
+    <div class="qa-count">3회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>AI 판은 변화가 빠르므로 연결제는 지양하고 월 20달러 월결제를 권장한다</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">클로드</span><span class="qa-tag">구독</span><span class="qa-tag">결제</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">VS Code를 한국어로 전환하는 방법은?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>Ctrl+Shift+P → &#x27;Configure Display Language&#x27; 입력 → 한국어 선택 → Restart 적용</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">VSCode</span><span class="qa-tag">한국어</span><span class="qa-tag">설치설정</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">수업 전에 Claude 외에 미리 결제하거나 준비할 것이 있는가?</div>
+    <div class="qa-count">4회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>일단 Claude만 결제하면 충분하며, API 발급 등 나머지는 강의 시간에 안내한다</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">사전준비</span><span class="qa-tag">클로드</span><span class="qa-tag">API</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드(끌루)에서 URL·영상·파일 분석이 가능한가?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>영상 분석은 Gemini API 연동 시 가능하며, 클로드는 파이썬 코드로 대부분 처리 가능하다. 세팅 방법은 수업에서 설명 예정</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">클로드</span><span class="qa-tag">영상분석</span><span class="qa-tag">파이썬</span><span class="qa-tag">Gemini</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">플레이리스트(플리) 자동화가 가능한가?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>현재는 불가능하며 완전히 다른 방식이 필요하다. 추후 별도 검토 예정</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">플레이리스트</span><span class="qa-tag">자동화</span><span class="qa-tag">유튜브</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">강의 수강 장비는 어떻게 구성하면 좋은가? (노트북 2대 또는 노트북+데스크탑)</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>실제 작업할 메인 기기로 실습하고, 다른 기기로 강의를 시청하는 방식을 권장한다</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">수강환경</span><span class="qa-tag">노트북</span><span class="qa-tag">데스크탑</span><span class="qa-tag">실습</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">그록(Grok)이 유료화되었나?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>그록이 유료화되었으며 현재 3일 무료 후 월 30달러 플랜으로 전환된다</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">그록</span><span class="qa-tag">Grok</span><span class="qa-tag">유료화</span><span class="qa-tag">AI도구</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">VS Code 대신 Cursor AI 또는 다른 편집기를 써도 되는가?</div>
+    <div class="qa-count">1회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>좋은 질문이며 본강의에서 상세히 답변 예정</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">VSCode</span><span class="qa-tag">Cursor</span><span class="qa-tag">편집기</span><span class="qa-tag">도구선택</span></div>
+  </div>
+</div></div>
+  <div class="section-title">💡 인사이트 & 팁</div>
+<div class="insight-list"><div class="insight-card fade-in">
+  <div class="insight-cat">수익화</div>
+  <div class="insight-content">💡 AI 구독은 연결제를 피하고 월결제로 유지하라. AI 업계의 판도가 단기간에 바뀌므로 장기 약정은 손해로 이어질 수 있다</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 카카오톡 &#x27;대화 내보내기&#x27; 기능으로 txt를 추출한 뒤 AI에 입력하면 채팅방 내용을 자동 정리할 수 있다</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 영상 대본과 이미지를 함께 AI에 입력하면 영상 분석 정확도가 높아진다. 클로드로 영상 20장 이미지 추출 → 대본과 병합하는 방식이 실용적</div>
+  <div class="insight-author">— 이@인(스톤)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">수익화</div>
+  <div class="insight-content">💡 20분 영상 기준 약 100씬의 이미지 컷이 생성된다. 대본 스크립트만 넣으면 프로그램이 자동으로 컷을 나눠준다</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 모르는 것은 클로드에게 직접 질문하는 습관을 들여라. VS Code 한국어 설정, 노트북 사양 적합성 등 기술적 문제는 AI가 즉시 해결해준다</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 일레븐랩스(ElevenLabs)는 타입캐스트보다 자연스러운 음성을 제공한다. 쇼츠는 타입캐스트 강세, 롱폼은 일레븐랩스 병행 전략이 효과적</div>
+  <div class="insight-author">— 김@호(17)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 커리큘럼 외 SUNO AI·플레이리스트 등 옵션에 분산되지 말고 본 커리큘럼에 집중하는 것이 초기 성과를 높인다</div>
+  <div class="insight-author">— 최@원(리마인드)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 야담 채널은 허위 콘텐츠 정책 위반으로 대규모 삭제 조치를 받고 있다. 수익화 카테고리 선정 시 저작권·콘텐츠 정책을 반드시 고려해야 한다</div>
+  <div class="insight-author">— 김@은(다람)</div>
+</div></div>
+  <div class="section-title">🕐 타임라인</div>
+<div class="timeline"><div class="tl-item fade-in">
+  <div class="tl-time">오전 12:15~오전 9:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">질문</span> 자정 이후 심야 채팅: 이용 기간 계산(만 3개월) 확인, 강사 강의 준비 중 실시간 응답. 초보 수강생 클로드 활용 첫 성공 후기 공유</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 9:00~오전 11:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 강의 전 환경 세팅 집중 논의: VS Code 한국어 설정, 클로드의 URL·영상 분석 가능 여부, 실습 장비 구성(노트북·데스크탑), 플레이리스트 자동화 불가 확인</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 11:00~오후 2:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> Zoom 수강 방식 문의 집중: 퇴근 후 입장 가능 여부, 핸드폰으로 라디오 청취 팁 공유. 오토봇 명령어 체계 소개 및 사용법 안내</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 2:00~오후 5:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 그록(Grok) 유료화 이슈 화두. 클로드 결제 방식(월결제 권장), API 사전 발급 불필요 확인. 유튜브 채널 고급 인증 필요성(롱폼 15분 초과 업로드 조건) 안내</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 5:00~오후 7:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 강의 직전 마지막 준비: Zoom 링크 공유(6:54), 노션 자료 링크 재공유, 클로드 로그인 오류 해결, 닉네임 미준수 수강생 개별 안내. 수강생들의 기대감 고조</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 7:00~오후 11:04</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">이벤트</span> 정규강의 1강 Zoom 진행. 강의 중 채팅 최소화. 자정 직전 늦게 입장한 수강생에게 노션 자료 링크 재안내로 마무리</div>
+</div></div>
+</div>
+<div id="day-2" class="tab-content" style="display:none">
+  <h2 class="day-title">3월 20일 금요일</h2>
+  <div class="stats-row">
+  <div class="stat-pill"><div class="stat-icon">💬</div><div class="num" data-target="710">0</div><div class="stat-label">메시지</div></div>
+  <div class="stat-pill"><div class="stat-icon">✅</div><div class="num" data-target="47">0</div><div class="stat-label">답변</div></div>
+  <div class="stat-pill"><div class="stat-icon">⏰</div><div class="stat-label">오전 2:12~오후 11:59</div></div>
+  <div class="stat-pill"><div class="stat-icon">🏆</div><div class="stat-label">MVP: 개발남 노씨(오토워커)</div></div>
+</div>
+  <div class="section-title">📢 주요 공지</div>
+<div class="ann-list"><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">전날 라이브 오류 사후 공지: (1) 대본 특수문자 문제 수정 완료, (2) 크롬 확장프로그램 오설치로 인한 그록 오류 수정 완료. 내일(3/21) 오후 7시부터 복습 완료자 순으로 사이트(영상제작 툴) 순차 배부 예정. 클로드 서버 일시 과부하가 사이트 속도에 영향을 미친 것으로, 월 1~2회 발생 수준.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오전 3:58</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">3/20 주요 공지사항 노션 페이지 공개. 수업 미수강자도 흐름 파악 가능. URL: https://hypnotic-concrete-dcf.notion.site/3-20-329c8b66674080649962f5b1c1edaa0c</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 12:10</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">수업 관련 노션 및 자료 통합 위키 공개: https://wiki.autoworkers.ai/ — 이후 모든 자료는 이곳에서 확인.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 5:18</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">튜브워커(오토워커 영상제작 프로그램) 배포 시작. 카페(https://cafe.naver.com/autoworker1/17)에서 다운로드 후 압축해제, Claude Code로 폴더 선택 후 &#x27;유튜브 영상 만들어줘 [카테고리] 10분영상으로 [유튜브링크]&#x27; 형식으로 사용. 세부 설명 VOD 추가 예정.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 7:21</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">과제 제출자에게 튜브워커 이메일 발송 시작. 과제 내용: 스킬로 만든 대본 카페 과제제출 게시판에 업로드. 과제 미제출자는 대기. 세부 제출 방식 추가 공지 예정.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 11:05</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">이번 주 토요일(초보~중수), 일요일(고수) 추가 수업 진행 예정. 다시보기 제공.</div>
+  <div class="ann-meta">주원(마케터 제이J) · 오전 3:49</div>
+</div></div>
+  <div class="section-title">❓ 핵심 Q&A</div>
+<div class="qa-list"><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드 프로 vs 맥스 — 어떤 플랜을 써야 하나요? 스킬 제작·대본 생성 시 프로로 충분한가요?</div>
+    <div class="qa-count">12회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>프로는 Opus 사용 시 5시간 롤링 한도·1주일 한도로 스킬 1~2개 만들면 금방 소진됩니다. 맥스 x5가 중소기업 수준 사용량에 적합하며, x20은 동시 4개 이상 작업 시 해당합니다. 낮은 플랜으로 시작 후 사용량 파악 뒤 차액만 내고 업그레이드 권장. 업그레이드 시 잔여 기간 차액만 결제됩니다.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">클로드플랜</span><span class="qa-tag">맥스</span><span class="qa-tag">토큰사용량</span><span class="qa-tag">비용</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">튜브워커(오토워커 프로그램) 신청·수령 방법은?</div>
+    <div class="qa-count">8회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>스킬로 만든 대본을 카페 과제제출 게시판에 업로드하면, 과제 확인 후 이메일로 프로그램 접속 정보 발송. 과제 제출 전 신청 불가. 세부 VOD 별도 제공 예정.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">튜브워커</span><span class="qa-tag">과제</span><span class="qa-tag">배포</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">스킬 제작 및 대본 생성은 Claude Code에서 해야 하나요, 일반 Claude.ai에서 해도 되나요?</div>
+    <div class="qa-count">5회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>기획·스킬 파일 작성·대본 생성 전 과정을 일반 Claude.ai(claude.ai)에서 진행하고, 완성된 스킬 파일을 다운로드해 Claude Code에 설치만 하는 방식이 토큰 효율이 높습니다. Claude Code에서 Opus로 직접 작업하면 내부 추론 사이클이 8회 이상 돌아 사용량이 3~5배 빨리 소진됩니다.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">클로드코드</span><span class="qa-tag">토큰최적화</span><span class="qa-tag">스킬제작</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">그록(Grok)이 유료화되었는데 튜브워커 사용에 유료 결제가 필수인가요?</div>
+    <div class="qa-count">4회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>현재 강사 측에서 더 나은 우회 방법을 검토 중이므로 당장 그록 유료 결제를 하지 말고 추가 공지를 기다리세요. 강의 시간에 소개된 것은 오토그록(Grok 사이트 없이 생성하는 우회 전략)이며, 본인 계정이 필요합니다.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">그록</span><span class="qa-tag">유료화</span><span class="qa-tag">우회</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드 토큰 5시간 한도 — 다 쓰고 기다려야 하나요, 아니면 빨리 쓰는 게 나은가요?</div>
+    <div class="qa-count">4회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>5시간 롤링 한도 외에 1주일 한도도 있습니다. 한도에 너무 집착해 무리하게 사용하면 1주일 한도가 막혀 며칠 대기해야 할 수 있습니다. 자연스럽게 작업하면서 부족하면 업그레이드하세요.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">토큰한도</span><span class="qa-tag">클로드사용량</span><span class="qa-tag">5시간갱신</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">구형 맥북에서 Claude Desktop 앱이 설치 안 됩니다. 터미널 + VSCode 조합으로 써도 되나요?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>터미널 + VSCode 조합으로 Claude Code CLI 사용에 문제 없습니다. 터미널이 더 편한 경우도 많습니다. Claude Desktop 앱에게 &#x27;클로드코드 cli 설치해줘&#x27;라고 지시하거나, Claude Desktop → 코드 탭에서 CLI 설치 가능합니다.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">클로드코드설치</span><span class="qa-tag">터미널</span><span class="qa-tag">맥북</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">유튜브 채널에 광고(유료 프로모션)를 돌려야 구독자·조회수가 오르나요?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>유튜브 숏폼·롱폼 모두 유료 광고 없이 알고리즘으로 조회수를 올리는 것이 일반적입니다. 광고는 제휴마케팅 등 특수 목적 외에는 효율이 낮습니다. 강사님도 일 95만원 달성 시 유료 광고를 돌리지 않으셨습니다.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">유튜브</span><span class="qa-tag">알고리즘</span><span class="qa-tag">광고</span><span class="qa-tag">수익화</span></div>
+  </div>
+</div></div>
+  <div class="section-title">💡 인사이트 & 팁</div>
+<div class="insight-list"><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 Claude.ai 일반 대화창에서 스킬 기획·설계·파일 작성을 완료하고, 완성 파일을 다운로드해 Claude Code에 설치만 하면 Opus 사용량을 최대 3~5배 절감할 수 있다. Claude Code 내 Opus 직접 작업은 추론 사이클 반복으로 토큰 소진이 극단적으로 빠르다.</div>
+  <div class="insight-author">— 경험자(노마지)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">수익화</div>
+  <div class="insight-content">💡 클로드 Pro 요금제에서 스킬 1개 + 대본 1개 작성 시 Opus 사용량이 거의 소진됩니다. 본격 영상 생산 단계에서는 맥스 x5 플랜이 실질적 최소 요건입니다. 업그레이드는 차액만 결제하므로 먼저 프로로 사용감을 확인 후 결정하세요.</div>
+  <div class="insight-author">— 조교 나물쓰</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 Genspark(젠스파크) 내 Claude Opus는 무제한 사용 가능하나 결과물 품질이 공식 Claude.ai보다 다소 낮습니다. 높은 퀄리티가 필요한 작업은 공식 Claude, 중간 품질로도 무방한 작업은 젠스파크 내 Claude를 병행 활용하면 비용을 절감할 수 있습니다.</div>
+  <div class="insight-author">— 문@정(달빛)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 배경음악은 오토워커 프로그램 생성 범위 밖입니다. CapCut에서 편집 시 별도로 삽입하는 것이 현재 가장 효율적인 워크플로우입니다.</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 썸네일 제작에는 Gemini(나노바나나)를 활용합니다. 무료 플랜으로 최신 버전 2~3회 생성 후 제한이 걸리면 하위 모델로 전환되며 1~3일 대기. 제작 수량이 늘어날 때 유료 업그레이드를 고려하세요.</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 Claude Desktop 앱에서 창을 최소화하면 화면이 하얗게 비는 버그가 있습니다. 전체화면 유지로 우회하거나, Claude Code에게 &#x27;이런 증상이 있는데 고쳐줘&#x27;라고 지시해 수정 가능합니다.</div>
+  <div class="insight-author">— 조교 나물쓰</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 채널 초기 운영 시 1~2개 영상 업로드가 최적입니다. 많이 올리는 것이 무조건 유리하지 않으며, 채널 일관성을 먼저 잡는 것이 알고리즘 노출에 유리합니다.</div>
+  <div class="insight-author">— 조교 나물쓰</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 클로드 비밀(시크릿) 모드에서는 스킬 작업이 연속성 없이 단절되어 실질적 활용이 어렵습니다. 스킬·대본 작업은 반드시 로그인 상태의 일반 창에서 진행하세요.</div>
+  <div class="insight-author">— 조교 나물쓰</div>
+</div></div>
+  <div class="section-title">🕐 타임라인</div>
+<div class="timeline"><div class="tl-item fade-in">
+  <div class="tl-time">오전 2:12~오전 6:28</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 전날 강의 마무리 후 피로감·아쉬움 공유. 강사가 특수문자·그록 확장프로그램 오류 원인을 공식 해명하고, 3/21 오후 7시 사이트 배부·토요일·일요일 추가 수업 계획을 공지. 수강생들이 서로 격려하며 마무리.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 8:00~오전 11:59</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 카페 가입 승인·VOD 업로드 시각 문의로 시작. 네이버 카페 링크 공유, 그록 유무료 여부·오토그록 개념 혼선 해소. 유튜브 광고 필요성 질의에 경험자들이 &#x27;알고리즘 우선&#x27; 원칙을 공유. 스킬 제작 진행 중인 수강생들의 토큰 소진 고충 접수.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 12:00~오후 2:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">질문</span> 강사가 통합 공지 노션 페이지 및 AI 툴 사용 가이드(브루·GPT 사용 중단, 제미나이는 썸네일 전용) 발표. Claude 플랜 선택(프로 vs 맥스) 논의가 집중 발생. Claude.ai vs Claude Code 토큰 효율 비교 실증 경험 활발히 공유.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 3:00~오후 5:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 수강생들이 VOD 복습하며 스킬 제작 실습 재개. Claude Code·VSCode 폴더 설정 관련 초보 트러블슈팅 다수 발생. 조교 나물쓰가 크롬 원격 지원으로 개별 문제 해결. /status 명령어로 사용량 확인하는 팁 공유. Claude Desktop 창 축소 시 화면 공백 버그 보고·해결.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 7:00~오후 8:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">이벤트</span> 강사가 튜브워커 프로그램을 카페에 공개 배포. 사용법(카테고리·유튜브 링크 입력 방식) 안내. 과제 제출 게시판 오픈 및 대본 과제 제출 시 이메일로 프로그램 제공 방식 확정. 수강생들이 강사 제공 스킬로 대본 생성 시작, 맥스 플랜 업그레이드 체감 공유.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 9:00~오후 11:59</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">이벤트</span> 과제 제출자들에게 순차적으로 튜브워커 이메일 발송 시작. 프로그램 로그인 후 실제 영상 생성 시도. 채널명 &#x27;TEST&#x27; 입력 시 500 에러 발생 등 초기 버그 신고 및 즉각 수정. 일부 수강생이 완성된 영상(자막·TTS 싱크 포함)을 최초 확인하며 극찬. 강사가 VOD 별도 제작 약속.</div>
+</div></div>
+</div>
+<div id="day-3" class="tab-content" style="display:none">
+  <h2 class="day-title">3월 21일 토요일</h2>
+  <div class="stats-row">
+  <div class="stat-pill"><div class="stat-icon">💬</div><div class="num" data-target="829">0</div><div class="stat-label">메시지</div></div>
+  <div class="stat-pill"><div class="stat-icon">✅</div><div class="num" data-target="47">0</div><div class="stat-label">답변</div></div>
+  <div class="stat-pill"><div class="stat-icon">⏰</div><div class="stat-label">오전 12:09~오후 9:01</div></div>
+  <div class="stat-pill"><div class="stat-icon">🏆</div><div class="stat-label">MVP: 개발남 노씨(오토워커)</div></div>
+</div>
+  <div class="section-title">📢 주요 공지</div>
+<div class="ann-list"><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">1튜브워커 미수령자, 1강 미이수자 포함 전원 대상 내일(22일) 오후 2시 줌 라이브 보강 진행 예정. 그 전까지 질문 자제 요청. 강사 및 조교진이 답변 준비 후 일괄 해결 예정.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오전 12:16</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">오후 3:32 줌 보강수업 링크 공개: https://us04web.zoom.us/j/79089015138?pwd=wNiBErwX2M7VxwTAWvVLmMMJv6LXEs.1 — 정규강의 아님. ①스킬 다운로드 실습 ②대본→영상 제작(튜브워커) ③질의응답. 6시까지 진행.</div>
+  <div class="ann-meta">조교 나물쓰 · 오후 3:32</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">튜브워커 이메일 순차 발송 예정. 발송 시 사담방·공지방 공지 예정. 오전 10시 이후 폼 제출자는 당일 메일 수령 가능.</div>
+  <div class="ann-meta">조교 나물쓰 · 오후 2:05</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">그록(Grok) 유료화 전환으로 외부 연동이 불안정. 영상 생성이 됐다 안됐다 반복. 조교 대국밥이 해결책 모색 중.</div>
+  <div class="ann-meta">[조교] 대국밥 · 오후 5:33</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">강의 자료 위치 정리: 노션 = https://wiki.autoworkers.ai/ (오토위키), 강의 영상·과제 = 네이버 카페 자료실 https://cafe.naver.com/f-e/cafes/31687042/menus/7</div>
+  <div class="ann-meta">디하클 스태프 둘리 · 오후 3:32</div>
+</div></div>
+  <div class="section-title">❓ 핵심 Q&A</div>
+<div class="qa-list"><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">튜브워커 메일을 아직 못 받았는데 언제 받을 수 있나요?</div>
+    <div class="qa-count">5회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>순차 발송 중. 오전 10시 이후 폼 제출자는 당일 메일 수령 완료. 발송 시 사담방·공지방에 공지.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">튜브워커</span><span class="qa-tag">이메일</span><span class="qa-tag">접근권한</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드 리밋(사용량 제한)에 걸렸는데 어떻게 해야 하나요?</div>
+    <div class="qa-count">6회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>클로드 Pro는 첫 사용 후 5시간 리밋. 맥스 요금제로 업그레이드하면 사용량 증가. 리밋 시 컴퓨터 재부팅 또는 계정 재로그인 시도 가능. 대본 생성 시 레퍼런스 영상 대본이 길수록 토큰 소모가 빠름.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">클로드</span><span class="qa-tag">리밋</span><span class="qa-tag">토큰</span><span class="qa-tag">맥스플랜</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">스킬 폴더 다운로드 후 어떻게 클로드 코드에서 실행하나요?</div>
+    <div class="qa-count">8회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>스킬 폴더를 바탕화면에 저장 후 클로드 코드(데스크탑 앱) 좌측 &#x27;폴더 열기&#x27;로 해당 폴더 지정. 이후 &#x27;이 폴더 분석하고 실행해줘&#x27; 명령. 클로드가 자동 세팅 진행. VS Code는 파일 보기 편의용이며 필수 아님.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">스킬</span><span class="qa-tag">클로드코드</span><span class="qa-tag">설치</span><span class="qa-tag">폴더설정</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">그록(Grok) SSO·쿠키 연동을 해도 영상 생성이 안 됩니다.</div>
+    <div class="qa-count">7회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>그록이 유료화되면서 외부 연동을 제한적으로 막아 됐다 안됐다 반복. 유료 가입해도 불안정. 이미지만 전부 생성 완료되면 프로젝트 싱크는 맞으므로 그록 영상 없이 캡컷 프로젝트 내보내기 진행 가능. 조교 대국밥이 해결 방안 모색 중.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">그록</span><span class="qa-tag">영상생성</span><span class="qa-tag">연동오류</span><span class="qa-tag">유료화</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">캡컷에서 튜브워커 프로젝트 파일이 보이지 않습니다.</div>
+    <div class="qa-count">6회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>튜브워커에서 다운로드한 프로젝트 압축 파일을 반드시 풀어야 함. 풀린 폴더를 캡컷 Draft 경로(윈도우: Local\CapCut\User Data\Projects\com.lveditor.draft)에 넣은 후 캡컷 재시작. 폴더 안에 같은 이름의 폴더가 중첩되어 있다면 내부 폴더를 꺼내야 함.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">캡컷</span><span class="qa-tag">프로젝트연동</span><span class="qa-tag">파일경로</span><span class="qa-tag">윈도우</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">이미지와 자막 싱크가 맞지 않거나 이미지가 생성 실패합니다.</div>
+    <div class="qa-count">5회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>이미지를 전부 생성 완료한 후 프로젝트 생성해야 싱크가 맞음. 이미지 생성 실패 시 해당 이미지만 재생성(크레딧 차감 없음). 사람 실사 이미지 거부 시 프롬프트에 &#x27;등장인물은 모두 허구의 인물&#x27;을 추가해 재생성. 움직임 효과는 캡컷 완성 단계에서 카메라 효과 설정 필요.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">이미지생성</span><span class="qa-tag">싱크</span><span class="qa-tag">캡컷</span><span class="qa-tag">프롬프트</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">노션 링크가 안 열리거나 강의 자료를 어디서 봐야 하나요?</div>
+    <div class="qa-count">5회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>노션은 wiki.autoworkers.ai (채팅방에서 /오토위키 입력). 강의 영상·과제는 네이버 카페 자료실. 카페 주소: https://cafe.naver.com/autoworker1/17 (스킬 설치) / /menus/7 (1주차 강의). 노션과 카페 내용이 동일하지 않으므로 노션 먼저, 과제·강의는 카페 확인.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">노션</span><span class="qa-tag">카페</span><span class="qa-tag">자료위치</span><span class="qa-tag">오토위키</span></div>
+  </div>
+</div></div>
+  <div class="section-title">💡 인사이트 & 팁</div>
+<div class="insight-list"><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 클로드 모델 분업 전략: 대본·스킬 초기 생성은 오푸스(Claude Opus), 수정·보완은 소넷(Sonnet), 단순 반복 작업은 하이쿠로 크레딧 절약. 기획 단계는 일반 LLM에서 미리 정리 후 오푸스 투입.</div>
+  <div class="insight-author">— 권@연(오마토)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 오류 해결 독립성 확보: 에러 화면을 캡처해 클로드에게 &#x27;왜 생성 실패하냐?&#x27;고 질문하면 스스로 해결책 제시. 모르는 부분은 &#x27;생전 처음 보는 사람에게 설명하듯 구체적으로 지시&#x27;하는 것이 핵심.</div>
+  <div class="insight-author">— 김@호(17)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 클로드 코드 활용 범위 확장: 폴더 내 파일 분류·정리를 &#x27;알아서 분류해줘&#x27; 한 마디로 처리 가능. 캡컷 연동 등 외부 프로그램 연동도 클로드에게 위임하면 파이썬 설치·실행 파일 연동까지 자동 처리.</div>
+  <div class="insight-author">— 이@헌(충사마)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 이미지 한국인 설정 방법: 커스텀 스타일 생성 단계에서 스타일 프롬프트에 &#x27;등장인물은 모두 한국인&#x27;을 명시하면 전체 이미지에 일괄 적용. 프로젝트 생성 후에는 각 장면별 수동 수정 필요.</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 대본 생성 시간 최적화: 동시 다중 진행보다 하나씩 순차 실행이 리밋 방지에 유리. 7~10분 영상 대본 기준 약 30분 소요. 중간중간 클로드 확인 응답(엔터 입력)이 필요한 반자동 구조.</div>
+  <div class="insight-author">— 김@수(온도도)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">수익화</div>
+  <div class="insight-content">💡 하이쿠·소넷으로도 대본 품질 충분: 오푸스 대비 소넷·하이쿠로 대본 생성 시 크레딧 절약되면서 퀄리티도 &#x27;본인이 직접 쓴 것보다 낫다&#x27;는 수강생 후기 다수. 비용 민감 구간에 소넷 활용 권장.</div>
+  <div class="insight-author">— 권@연(오마토)</div>
+</div></div>
+  <div class="section-title">🕐 타임라인</div>
+<div class="timeline"><div class="tl-item fade-in">
+  <div class="tl-time">오전 12:09~오전 2:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 심야 자율 실습 세션. 수강생들이 스킬 설치·대본 생성 시도 중 캡컷 프로젝트 연동 오류, 토큰 리밋 등 다발 발생. 강사가 내일 오후 2시 줌 보강 공지 후 질문 자제 요청. 충사마가 캡컷 프로젝트 등록 방법 PDF 공유로 커뮤니티 자체 해결 분위기 조성.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 7:41~오전 10:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">질문</span> 아침 복귀와 함께 초보 수강생 질문 폭증. VS Code 폴더 설정 오류, 노션·카페 링크 접근 불가, 스킬 파일 구조 불일치 등 환경 세팅 문제 집중. 쇼츠코인·융이 등 선행 수강생들이 조교 역할 대행하며 오토위키 링크와 구글 드라이브 다운로드 경로 안내.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 10:00~오후 1:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 스킬 설치·실행 트러블슈팅 집중 구간. Google API 키 요구 여부, 일레븐랩스 키 필요성, 대본 생성 소요 시간(7~10분 영상 기준 약 30분) 확인. 조교 나물쓰·충사마가 적극 개입. 오후 2시 줌 보강 대기 분위기 형성.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 2:00~오후 3:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 오후 2시 줌 보강수업 개시. 튜브워커 메일 순차 발송 시작. 클로드 데스크탑 앱 미설치로 코드 탭 미표시 문제 등 기초 환경 오류 실시간 해결. 대국밥 조교가 대량 삭제 메시지 발생(실수). 1주차 강의 위치 혼동 수강생 다수 정리.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 3:30~오후 6:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 튜브워커·캡컷 연동 실습 본격화. 그록 유료화로 인한 영상 생성 불안정 이슈 공론화. 캡컷 프로젝트 경로 설정, 이중 폴더 구조 오류 해결, 씬 전환 미적용 문제 등 세부 편집 트러블슈팅. 수강생 간 노하우 공유 활성화.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 6:00~오후 8:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">이벤트</span> 이미지 생성 실패(실사·폭력 소재 필터링), 싱크 불일치 원인 분석(이미지 미완성 상태 프로젝트 생성 오류), 카메라 효과 미적용 문제 집중 해결. 수강생들이 첫 완성 영상을 캡컷에서 확인하며 &#x27;미쳤네&#x27; 반응. 이미지 한국인 설정 팁, 모델별 크레딧 절약 전략 공유.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 8:00~오후 9:01</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">일상</span> 마무리 실습 및 개인 완성 보고. 그록 영상 생성 부분 성공 사례 등장(오마토). 썸네일 생성 방법 문의 시작. 강사가 사담방으로 질문 유도하며 세션 마무리.</div>
+</div></div>
+</div>
+<div id="day-4" class="tab-content" style="display:none">
+  <h2 class="day-title">3월 22일 일요일</h2>
+  <div class="stats-row">
+  <div class="stat-pill"><div class="stat-icon">💬</div><div class="num" data-target="922">0</div><div class="stat-label">메시지</div></div>
+  <div class="stat-pill"><div class="stat-icon">✅</div><div class="num" data-target="18">0</div><div class="stat-label">답변</div></div>
+  <div class="stat-pill"><div class="stat-icon">⏰</div><div class="stat-label">오전 2:10~오후 11:53</div></div>
+  <div class="stat-pill"><div class="stat-icon">🏆</div><div class="stat-label">MVP: 조@욱(잼스)</div></div>
+</div>
+  <div class="section-title">📢 주요 공지</div>
+<div class="ann-list"><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">오토위키 신규 URL 적용 완료. 공지방 및 오토노션 확인 필수. 오토봇(@all) 통해 https://wiki.autoworkers.ai/ 안내</div>
+  <div class="ann-meta">임@진(후파) · 오전 10:49</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">일요일 추가특강(고수방) 줌 링크 공지. 터미널 사용법 및 remote 원격 활용법 강의. VOD 녹화 제공 예정.</div>
+  <div class="ann-meta">조교 나물쓰 · 오후 3:08</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">조교 온보딩 완료. 내일(월)부터 전 조교 투입 예정. 질문은 사담방, 잡담은 프반 허용.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 8:07</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">튜브워커 서버 점검 중(~오후 4:30). 튜브워커 접속 주소: http://ec2-43-203-100-223.ap-northeast-2.compute.amazonaws.com:8000/ — 아이디/비밀번호는 과제 제출 후 구글폼 작성 시 제공.</div>
+  <div class="ann-meta">조교 나물쓰 / 개발남 노씨(오토워커) · 오후 4:26</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">스킬 파일 재업로드 및 강의 영상 재촬영 예정(다음날). 현재 스킬 내 output·썸네일 프롬프트 누락 이슈 대응.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 11:48</div>
+</div></div>
+  <div class="section-title">❓ 핵심 Q&A</div>
+<div class="qa-list"><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">VSCode에서 Claude Desktop 파일을 복사해 클로드에 붙여넣기가 안 되는 이유는?</div>
+    <div class="qa-count">4회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>클로드 데스크탑은 파일 복사·붙여넣기가 직접 지원되지 않음. 먼저 Claude Desktop 설정에서 작업 경로(폴더)를 지정해야 하며, 코드 탭(탐색기 탭)에서 경로를 설정한 후 작업해야 함.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">Claude Desktop</span><span class="qa-tag">VSCode</span><span class="qa-tag">파일 관리</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">1강 과제 영상 길이는 얼마로 제출해야 하나요?</div>
+    <div class="qa-count">3회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>강사 시연 영상 기준 7~10분. 10분으로 제출해도 자료 제공됨. 플랫폼 불안정 시 구글폼에 제출했다고 기재해도 인정.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">과제 제출</span><span class="qa-tag">영상 길이</span><span class="qa-tag">1강</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">과제 제출 시 파일 업로드가 &#x27;서버에서 거부되었습니다&#x27; 오류 발생</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>파일 업로드 필수 옵션을 해제 처리함. 첨부파일 없이 제출 버튼 클릭으로 제출 가능.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">과제 제출</span><span class="qa-tag">서버 오류</span><span class="qa-tag">파일 업로드</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드 맥스 플랜의 주당 한도를 소진하면 목요일까지 사용 불가한가?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>맞음. 주당 한도 소진 시 다음 리셋일(목요일)까지 추가 사용 불가. 초기엔 토큰 낭비가 많으므로 맥스 플랜 사용 후 안정화되면 프로 플랜으로 전환 고려.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">Claude 요금제</span><span class="qa-tag">토큰 한도</span><span class="qa-tag">맥스 플랜</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">자막 싱크가 안 맞을 때 해결 방법은?</div>
+    <div class="qa-count">3회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>캡컷 자동캡션 대신, 캡컷에서 자막을 제거한 뒤 브루(Vrew)로 가져가 자막을 재생성하는 방법이 최선. 브루 자막 정확도가 높음.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">자막 싱크</span><span class="qa-tag">캡컷</span><span class="qa-tag">브루(Vrew)</span><span class="qa-tag">영상 편집</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">튜브워커 회원 등급이 &#x27;노말&#x27;로 표시되는데 정상인가요?</div>
+    <div class="qa-count">1회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>공지방·오토노션에서 새 주소 및 등급 정보 확인 필요. 점검 후 재접속 시 정상 반영 예정.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">튜브워커</span><span class="qa-tag">회원 등급</span><span class="qa-tag">접속</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">그록(Grok) 브라우저 쿠키 요구 화면이 뜨는데 어떻게 하나요?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>쿠키에는 로그인 정보가 포함되어 외부 노출 위험. 훅 영상 생성 단계에서 &#x27;건너뛰기&#x27;로 넘어가면 됨.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">Grok</span><span class="qa-tag">쿠키</span><span class="qa-tag">보안</span><span class="qa-tag">훅 영상</span></div>
+  </div>
+</div></div>
+  <div class="section-title">💡 인사이트 & 팁</div>
+<div class="insight-list"><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 Claude Code(Opus 4.6 모드)에게 워크플로우를 시각화한 &#x27;장르 에디터&#x27; 제작을 요청하면, 대본 스타일 변수(장르, 채널 특성)를 GUI로 수정 가능한 편집기를 자동 생성해 준다. 반복 타이핑 없이 스킬 파라미터를 편집할 수 있어 대본 고도화 효율이 크게 향상됨.</div>
+  <div class="insight-author">— 조@욱(잼스)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 벤치마킹 채널 스크립트를 유플레이어(YTD 등)로 수집 후 Claude Code에 역프롬프트를 요청하면 채널 고유 스크립트 지침서(SKILL.md)를 자동 생성할 수 있다. 제미나이(잼민이)로 유튜브 링크 2~3개를 끌어와 뼈대를 만들고, Claude로 완성하는 방식도 효과적.</div>
+  <div class="insight-author">— 구@기(쇼츠코인)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 Anthropic Claude 클코 토큰 한도 부족 시, Anthropic(안티)에 내장된 Gemini 2.1 무료 토큰과 Claude Opus 4.6 무료 토큰을 병행 사용하면 토큰 소모를 분산할 수 있다. 대본 분석처럼 최상위 모델이 불필요한 작업은 Gemini 할당.</div>
+  <div class="insight-author">— 구@기(쇼츠코인)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 파이프라인·워크플로우 결과물은 HTML 대시보드로 만들어 두면 에이전트 추가·대본 스킬 수정을 웹 UI에서 직접 편집 가능. 클로드에게 기존 워크플로우 스크린샷을 제공하며 &#x27;이런 대시보드 만들어줘&#x27;라고 하면 자동 생성됨.</div>
+  <div class="insight-author">— 조@욱(잼스) / 구@기(쇼츠코인)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 롱폼은 완전 자동화, 쇼츠는 반자동화 수준. 중복도 회피를 위해 벤치마킹 채널을 다르게 잡고 스크립트 스타일링을 채널마다 차별화하는 것이 조회수와 수익화에 직결됨. 여러 강의를 넘나드는 것보다 한 강의·한 방향에 집중하는 것이 성과로 이어짐.</div>
+  <div class="insight-author">— 조@욱(잼스)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">수익화</div>
+  <div class="insight-content">💡 AI 시대에는 기술보다 기획력·취향이 경쟁력. 강사 개발남 노씨: &#x27;이젠 기획, 취향이 진짜 중요해지는 것 같다.&#x27; 바이브코딩에서도 본질은 텍스트(대본)이며 워크플로우를 언어로 설계하는 능력이 핵심.</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 일레븐랩스 TTS 부분 수정(특정 문장만 재생성 후 끼워넣기)은 현재 공식 지원 안 됨. 오류 있는 음성도 업로드 시 조회수에 큰 영향 없으나, 향후 정교화 예정. 음성 선택 시 &#x27;톡톡 꽂히는&#x27; 느낌의 목소리가 채널 성과에 유리.</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div></div>
+  <div class="section-title">🕐 타임라인</div>
+<div class="timeline"><div class="tl-item fade-in">
+  <div class="tl-time">오전 2:10~오전 10:50</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 오토위키 신규 URL 봇 연동 작업. 임@진(후파)이 양쪽 방(프반·사담방)에 오토봇 /질문 커맨드 및 위키 링크 자동 응답 설정 완료.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 11:00~오후 2:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 프반 운영 방침 정립. 강사: 질문은 사담방, 잡담은 프반 허용. 1강 과제 파일 업로드 오류 처리(필수 옵션 해제), 과제 영상 길이 안내(7~10분). 줌 인원 초과 이슈 대응.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 2:00~오후 4:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">질문</span> VSCode·Claude Desktop 파일 복사·붙여넣기 트러블슈팅(조교 나물쓰 응대). 튜브워커 서버 점검 공지 및 접속 주소·계정 발급 절차 안내. 그록 쿠키 이슈 문의.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 7:00~오후 8:10</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 수강생 자유 토론 최고조: 잼스님 주도로 Claude Code 활용 장르 에디터·워크플로우 시각화(대시보드·HTML) 아이디어 공유. 캡컷 자막 싱크, 브루 활용, 롱폼 전략 집중 토론. 강사 조교 온보딩 완료 발표.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 8:10~오후 9:50</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 심리학 바이브코딩·Remotion·블렌더·Meshy AI 등 확장 도구 정보 교류. 쇼츠코인님의 HTML 대시보드 공개. 오토워커 롱폼 수익화 비전 확인(강사: &#x27;롱폼으로 진짜 돈 벌자, 기능 전부 추가해 드리겠다&#x27;).</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 9:50~오후 11:53</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">질문</span> 대본 지침서 제작 방법론 공유(유플레이어로 스크립트 수집 → 역프롬프트 → Claude 완성). 초보자 Python 환경 선택·스킬 실습 Q&amp;A. 강사: 스킬 재업로드·강의 영상 재촬영 예고. 막바지 캡컷 이미지 이슈 문의로 마무리.</div>
+</div></div>
+</div>
+<div id="day-5" class="tab-content" style="display:none">
+  <h2 class="day-title">3월 23일 월요일</h2>
+  <div class="stats-row">
+  <div class="stat-pill"><div class="stat-icon">💬</div><div class="num" data-target="547">0</div><div class="stat-label">메시지</div></div>
+  <div class="stat-pill"><div class="stat-icon">✅</div><div class="num" data-target="38">0</div><div class="stat-label">답변</div></div>
+  <div class="stat-pill"><div class="stat-icon">⏰</div><div class="stat-label">오전 12:05~오후 11:58</div></div>
+  <div class="stat-pill"><div class="stat-icon">🏆</div><div class="stat-label">MVP: 개발남 노씨(오토워커)</div></div>
+</div>
+  <div class="section-title">📢 주요 공지</div>
+<div class="ann-list"><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">튜브워커 서버 주소 변경 공지. 신규 주소: http://ec2-43-203-100-223.ap-northeast-2.compute.amazonaws.com:8000/ — 크레딧 시스템 개편(영상 길이 기준 → 대본 글자수 기준), 기존 크레딧 자동 10배 전환, 대본 글자수 1,000~30,000자 자유 입력, 영상설정 단계 제거, 음성(자막 싱크) 세밀화.</div>
+  <div class="ann-meta">[조교] 대국밥 · 오전 11:48</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">[1주차 프반 특강 공지] 화요일 19:00~21:00 진행. ① 스킬 만드는 과정 시연 ② 공개 피드백. 피드백 희망자는 구글폼(https://forms.gle/8ZHuaetveHuKAdKN7)에 스킬 업로드 요망. 질문답변은 24:00까지 연장.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 9:45</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">카톡방 질의응답 정리본 카페 및 노션 매일 업로드 시작. 카페: https://cafe.naver.com/f-e/cafes/31687042/menus/31?viewType=L / 노션: https://www.notion.so/32cc8b6667408039b4cdd423058052f7 — 18·19일자 업로드 완료, 이후 일자도 순차 업로드 예정. 모닝 루틴으로 정독 권장.</div>
+  <div class="ann-meta">비빔(조교) · 오후 9:49</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">크레딧 구매 시 사용 아이디(닉네임 아닌 아이디, 예: autoworker00) 기재 필수. 현금영수증은 카드결제 모듈 추가 후 일괄 처리 예정.</div>
+  <div class="ann-meta">레몬버터(조교) · 오후 3:08</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">튜브워커 사이트 오후 5시 4분부터 점검 돌입. 목요일 19시까지 점검 예정. 이미지 일관성 개선 및 기본 스타일(실사/시네마틱) 동양인 기본값 반영 업데이트 포함.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 5:04</div>
+</div></div>
+  <div class="section-title">❓ 핵심 Q&A</div>
+<div class="qa-list"><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">이미지에 외국인이 나오는데 한국인으로 뽑으려면 어떻게 해야 하나요?</div>
+    <div class="qa-count">5회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>기본 스타일(실사/시네마틱) 사용 시 외국인이 나올 수 있음. 반드시 커스텀 스타일을 먼저 만들고 동양인(한국인)으로 명시한 뒤 이미지 생성. Claude Code에서 &#x27;동양인으로 그려달라&#x27;고 요청하는 방법도 가능. 기본 스타일 선택지에 동양인 기본값을 반영하는 업데이트 예정.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">이미지생성</span><span class="qa-tag">커스텀스타일</span><span class="qa-tag">튜브워커</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">스토리보드 생성 버튼을 두 번 누르면 크레딧이 두 번 차감되나요?</div>
+    <div class="qa-count">3회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>스토리보드 생성 시 크레딧 차감 확인 경고창이 뜨며, &#x27;확인&#x27; 버튼을 눌러야 차감됨. 확인창 없이 실수로 두 번 누른 경우는 서버·네트워크 오류 여부 확인 후 복구 가능. 이미지 생성 단계는 크레딧 차감 없음.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">크레딧</span><span class="qa-tag">스토리보드</span><span class="qa-tag">튜브워커</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">튜브워커 접속이 안 됩니다. 주소가 바뀌었나요?</div>
+    <div class="qa-count">4회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>공지방 상단에 새 주소 공지됨. http://ec2-43-203-100-223.ap-northeast-2.compute.amazonaws.com:8000/ 로 접속. 접속 불가 시 Ctrl+Shift+R(강제 새로고침) 시도.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">튜브워커</span><span class="qa-tag">접속</span><span class="qa-tag">주소변경</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">일레븐랩스 API 키 저장/연동이 안 됩니다.</div>
+    <div class="qa-count">3회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>워크스페이스 ID와 API 키는 별개. 기존 API 키를 따로 저장해두지 않았다면 재복사 불가하므로 새 API 키 발급 후 튜브워커 설정에 입력. 설정 메뉴(좌측 하단 계정 프로필 → 설정)에서 직접 입력 가능. 튜브워커 내장 크레딧이 일레븐랩스 직접 구독보다 대량 구매 단가가 낮음.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">일레븐랩스</span><span class="qa-tag">API</span><span class="qa-tag">음성생성</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">Claude Code 스킬 폴더 지정 후 새 창에서 스킬이 인식 안 됩니다.</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">일반</div>
+      <p>새 창 열 때마다 스킬 분석·실행을 명시적으로 요청하거나, 스킬 폴더를 CLAUDE.md에 고정 참조되도록 설정 권장. 토큰 소모를 줄이려면 필요한 스킬 파일만 선택적으로 로드.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">ClaudeCode</span><span class="qa-tag">스킬</span><span class="qa-tag">토큰</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">VSCode 클로드 플러그인과 Claude Code(터미널)의 차이가 있나요?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">일반</div>
+      <p>기능 차이보다 환경 차이. VSCode와 Antigravity(VS Code 기반 구글 IDE) 모두 탐색기 역할로 사용 가능. Antigravity는 AI 내장으로 토큰 여유가 있고 구글 MCP 연결이 편리하며 프론트엔드 UI 생성에 강점. 본 강의 내용과는 직접 상관 없음.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">ClaudeCode</span><span class="qa-tag">VSCode</span><span class="qa-tag">Antigravity</span><span class="qa-tag">도구선택</span></div>
+  </div>
+</div></div>
+  <div class="section-title">💡 인사이트 & 팁</div>
+<div class="insight-list"><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 대본 스킬은 조각내어 하나씩 개선하는 것이 효과적. 통합 프롬프트를 한 번에 수정하려다 방향을 잃는 것보다, 영역(장르·톤·후킹·서사 구조)별로 분리해 무한 수정을 반복하면 실력과 결과물 모두 향상됨.</div>
+  <div class="insight-author">— 조@욱(잼스)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">수익화</div>
+  <div class="insight-content">💡 조회수를 올리는 핵심 공식: ① 조회수 잘 터지는 AI 롱폼 영상을 벤치마킹 → ② 좋은 퀄리티로 → ③ 마구 뽑아낸다. 이 세 단계를 스킬에 녹이는 것이 2주차 정규강의의 핵심이며, 성공 확률을 크게 높이는 전략.</div>
+  <div class="insight-author">— 개발남 노씨(오토워커)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 Claude MAX 200달러 플랜도 무한정 사용 불가. 과도한 남용 시 한계 도달 후 강제 휴식. API 연동으로 일부 작업을 이어받거나, Claude Code + Gemini API 병행 사용으로 비용 분산 전략 필요.</div>
+  <div class="insight-author">— 조@욱(잼스)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 기획 단계에서 Claude Code(소통 비용 큼)보다 Gemini AI 스튜디오(무료, 대화형 기획 최적)를 먼저 활용해 아이디어를 구체화한 뒤 Claude Code에 기획서를 넘기는 워크플로우가 토큰 절약과 작업 효율 양면에서 유리.</div>
+  <div class="insight-author">— 구@기(쇼츠코인)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 구글 AI 스튜디오는 영상 분석(레퍼런스 구조 파악·말투 추출)에 강점. 분석 결과를 Claude Code 스킬에 넣으면 채널 고유 스타일(욕망형·직관형 등 여러 버전)이 반영된 대본 다중 생성이 가능.</div>
+  <div class="insight-author">— 윤@수(브리 노마드)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 캡컷 프로젝트 폴더 압축 해제 시 폴더가 이중으로 생성되는 경우가 있음. 캡컷이 인식하는 폴더(내부 폴더)를 한 단계 바깥으로 꺼내면 즉시 해결됨. 동일 오류 발생 시 Claude Code에 물어보기 전 폴더 구조 먼저 확인.</div>
+  <div class="insight-author">— 김@철(플랜PLAN)</div>
+</div></div>
+  <div class="section-title">🕐 타임라인</div>
+<div class="timeline"><div class="tl-item fade-in">
+  <div class="tl-time">오전 12:05~오전 4:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 심야 자율학습 타임. 대본 파이프라인 스킬(youtube-pd agent) 공유 및 개선 논의, 과제 제출 방법(구글폼·카페 업로드) 문의 집중. Claude MAX 200달러 사용량 소진 사례 공유. Notion 정리 링크 배포.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 7:00~오전 11:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 오전 활동 재개. 화요일 프반 수업 성격(특강 vs 피드백) 혼선 발생. 튜브워커 접속 주소 변경 관련 문의 급증. 스토리보드 크레딧 중복 차감 이슈·이미지 커스텀 버튼 비활성화 오류 조교 대응. 그록 영상 생성 차단 대응책 안내.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 11:00~오후 1:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">질문</span> 기본 스타일(실사/시네마틱) 사용 시 외국인 이미지 생성 이슈 집중 토론. 강사가 커스텀 스타일 필수화 및 기본값 업데이트 예정 공지. 크레딧 환불·세금 처리(현금영수증) 문의. 1기 수강생 초기 운영 애로사항 공유.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 1:30~오후 3:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">문제해결</span> 일레븐랩스 API 연동(워크스페이스 ID vs API 키 혼동) 트러블슈팅. 캡컷 프로젝트 폴더 인식 오류를 수강생 간 상호 해결. 과제 파일 업로드 서버 거부 오류 즉각 수정(필수값 해제). Whisk 쿠키 에디터 연동 방법 안내.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 3:30~오후 6:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> Antigravity vs VSCode 차이 및 프론트·백엔드 분리 워크플로우 토론. Gemini AI 스튜디오 기획 단계 활용 전략 공유. 대본 스킬 자율 개선(구글 AI 스튜디오 영상 분석 연동, 다중 버전 생성) 사례 논의. 오후 5시 사이트 점검 돌입.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 7:00~오후 10:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 프반 특강 공지 발표(화요일 19~21시, 스킬 제작 시연 + 공개 피드백). 질의응답 정리본 카페·노션 일일 업로드 시작 안내. 정규강의(사용법 중심) vs 프반(원리·확장·개선) 커리큘럼 방향 명확화.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 10:00~오후 11:58</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">이벤트</span> 3주차 정규강의 콘텐츠 예고: 경제·심리·역사 3개 채널용 스킬 + 유튜브 파인더 신버전 배포. 조회수 공식(벤치마킹 → 퀄리티 → 대량 생산) 공유. 강사 프반 강의자료 제작 착수 선언 후 마무리.</div>
+</div></div>
+</div>
+<div id="day-6" class="tab-content" style="display:none">
+  <h2 class="day-title">3월 24일 화요일</h2>
+  <div class="stats-row">
+  <div class="stat-pill"><div class="stat-icon">💬</div><div class="num" data-target="522">0</div><div class="stat-label">메시지</div></div>
+  <div class="stat-pill"><div class="stat-icon">✅</div><div class="num" data-target="28">0</div><div class="stat-label">답변</div></div>
+  <div class="stat-pill"><div class="stat-icon">⏰</div><div class="stat-label">오전 12:31~오후 11:26</div></div>
+  <div class="stat-pill"><div class="stat-icon">🏆</div><div class="stat-label">MVP: 개발남 노씨(오토워커)</div></div>
+</div>
+  <div class="section-title">📢 주요 공지</div>
+<div class="ann-list"><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">[1주차 프반 특강 공지] 화요일 19시~21시 줌 특강. 노씨 스킬 개선 과정 시연 + 수강생 스킬 공개 피드백. 원하는 분은 21시~24시 질문답변 연장 가능. 스킬 피드백 희망자는 사전 업로드 필요. https://forms.gle/8ZHuaetveHuKAdKN7</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오전 12:41</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">튜브워커 사이트 재오픈 일정 변경: 수요일 오전 9시 → 목요일 저녁 7시. 사이트 화면 직관성 개선, 사용설명서 PDF, 따라하기 VOD 제작 예정. 1주차 과제 제출 불필요, 2주차 목요일 이후 새 과제 제공. 목요일까지 1주차 정규강의·스킬강의만 먼저 수강 권장. https://wiki.autoworkers.ai/1-32cc8b6667408004af2df97309e0d365</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 1:09</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">카톡방 벽타기 정리본 업데이트: 3월 20일·21일자 질의응답 정리본 카페 게시. 나머지 일자도 순차 업로드 예정.</div>
+  <div class="ann-meta">비빔(조교) · 오후 5:16</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">[3/24 화요일 프반 피드백 &amp; AI 특강] 줌 링크: https://us06web.zoom.us/j/82115285088?pwd=9W7TEiKrcFAFsVjDbhrTRKAYbKRGFW.1 / 강의 녹화 후 프리미엄 전용 노션방 업로드 예정.</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 6:55</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">추가 조교진 합류 공지: 시스템 완벽 숙지 전 단계이나 이번 주 내 1차 정리 완료 목표, 차주부터 원격지원 제공 예정.</div>
+  <div class="ann-meta">버터떡(조교) · 오후 8:21</div>
+</div></div>
+  <div class="section-title">❓ 핵심 Q&A</div>
+<div class="qa-list"><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">프리미엄반 강의가 개발·바이브코딩 위주인가, 아니면 유튜브 수익화 실전 위주인가?</div>
+    <div class="qa-count">4회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>1~2주차는 유튜브 자동화·수익화 실전(정보성 콘텐츠 포함) 집중. 3주차부터 바이브코딩 입문, 5주차에 n8n 예정대로 진행. 프반 특강(화요일)은 추가 보충 강의 성격.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">커리큘럼</span><span class="qa-tag">바이브코딩</span><span class="qa-tag">수익화</span><span class="qa-tag">n8n</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">튜브워커 사이트가 접속이 안 된다 / 언제 다시 열리나?</div>
+    <div class="qa-count">5회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>목요일 저녁 7시 정규강의와 함께 재오픈. 직관적 UI 개선·사용설명서 PDF·따라하기 VOD 준비 후 공개. 1주차 과제 제출 불필요.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">튜브워커</span><span class="qa-tag">점검</span><span class="qa-tag">재오픈</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드 코드 실행 중 강제 중단하는 방법은?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>ESC 키를 누르면 즉시 중단 가능. 터미널 환경에서는 /btw XXX 명령 사용.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">클로드코드</span><span class="qa-tag">단축키</span><span class="qa-tag">오류해결</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">사무실 노트북에서 집 컴퓨터 터미널을 원격으로 사용하는 방법은?</div>
+    <div class="qa-count">1회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교</div>
+      <p>크롬 원격 데스크톱 사용 권장. 집 PC가 켜져 있으면 비밀번호만으로 원격 접속 가능하며 현장 승인 불필요.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">원격접속</span><span class="qa-tag">크롬 원격 데스크톱</span><span class="qa-tag">터미널</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">대본 글자수 오류를 사전에 방지하는 팁이 있나?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>글자수 대신 바이트 수로 요청(글자수 × 3배 = 바이트 수). 또는 클로드에게 글자수 카운트 후 재검수 반복 요청. Opus 모델 사용 시 준수율 높음.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">대본</span><span class="qa-tag">글자수</span><span class="qa-tag">프롬프트팁</span><span class="qa-tag">클로드</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">대본 생성 시 draft 병렬 작업 단계에서 Opus vs Sonnet 어느 모델을 써야 하나?</div>
+    <div class="qa-count">1회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>핵심 에이전트(draft 포함)는 전부 Opus 권장. 팩트체크 단계는 Sonnet으로도 충분하나 강사 본인은 Opus로 통일.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">Opus</span><span class="qa-tag">Sonnet</span><span class="qa-tag">대본</span><span class="qa-tag">에이전트</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드와 제미나이를 연동해서 이미지 생성에 활용할 수 있나?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>Vertex AI API를 통해 Gemini 호출 가능. 구글 클라우드 신규 가입 시 300달러 크레딧 제공. 단, 구독 플랜과 API 과금은 별개이며, 브라우저 자동화를 통한 우회는 약관 위반으로 계정 삭제 위험.</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">제미나이</span><span class="qa-tag">Vertex AI</span><span class="qa-tag">API</span><span class="qa-tag">이미지생성</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">강의 VOD 및 프리미엄반 노션 링크는 어디서 확인하나?</div>
+    <div class="qa-count">3회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사</div>
+      <p>강의 VOD 허브: https://wiki.autoworkers.ai/ / 프리미엄반 노션: https://hypnotic-concrete-dcf.notion.site/1-32dc8b666740805fae1df22c420b14eb</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">VOD</span><span class="qa-tag">노션</span><span class="qa-tag">강의링크</span></div>
+  </div>
+</div></div>
+  <div class="section-title">💡 인사이트 & 팁</div>
+<div class="insight-list"><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 클로드를 잘 쓰는 세 가지 핵심: ① &#x27;질문을 질문하라&#x27; — 목표를 먼저 던지고 클로드에게 단계별 방법을 되물어라. ② Context 관리 — 대화 맥락을 잘 유지해야 품질이 일정하다. ③ Workflow 설계 — 에이전트별 역할 분리와 병렬 실행이 시간·비용을 모두 줄인다.</div>
+  <div class="insight-author">— 임@호(옥빛소리)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 대본 글자수 준수율이 낮을 때는 글자수 대신 &#x27;바이트 수(글자수 × 3)&#x27;로 요청하면 정확도가 높아진다. Opus 모델 사용 시 준수율이 추가로 개선된다.</div>
+  <div class="insight-author">— 이@훈(kokoro)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">수익화</div>
+  <div class="insight-content">💡 PDF·대용량 문서 분석 시 맥스 플랜이 아니면 토큰 소모가 극심하다. 구글 노트북LM(무료)을 전처리 단계로 활용해 핵심만 추출한 뒤 클로드에 투입하면 비용을 크게 절감할 수 있다.</div>
+  <div class="insight-author">— 김@구(오슴오)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 클로드 2026년 업데이트에서 컴퓨터 직접 제어(앱 실행·브라우저 탐색·스프레드시트 작성) 기능이 공식 탑재됐다. 오픈클로 대비 성능 우위가 기대되므로 자동화 워크플로우 재설계 시점이다.</div>
+  <div class="insight-author">— 구@기(쇼츠코인)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 캡컷에 씨댄스(Sieverse) 2.0이 탑재됐다. 영상 제작 자동화 파이프라인에서 이미지→영상 변환 단계의 퀄리티 향상을 기대할 수 있다.</div>
+  <div class="insight-author">— 최@원(리마인드)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 스킬 개선 효과를 측정하는 실전 기준: 직접 결과물을 보고 판단한다. 평가 기준 자체도 클로드에게 물어보고, 시키고-판단하고-재시키는 반복 루프로 기준을 고도화한다.</div>
+  <div class="insight-author">— 임@호(옥빛소리)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">수익화</div>
+  <div class="insight-content">💡 유튜브 채널 소개 영상(1분 내외)을 만들면 구글 채널 신뢰도 점수 향상에 도움이 된다. 스킬로 만들 필요 없이 단일 대본 작업으로 충분하며, 인트로는 초반보다 2~3분 뒤 훅 이후에 배치해야 이탈률이 낮아진다.</div>
+  <div class="insight-author">— 변@원(돈방석)</div>
+</div></div>
+  <div class="section-title">🕐 타임라인</div>
+<div class="timeline"><div class="tl-item fade-in">
+  <div class="tl-time">오전 12:31~오전 2:39</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 새벽 합류 인사 및 1주차 프반 특강 공지 발송. 강사가 오늘 저녁 특강 안내(줌 링크·구글 폼)와 함께 프반 커리큘럼 방향(수익화 위주)을 간략히 설명. 일부 수강생들이 바이브코딩 기대감·개발 진입 장벽에 대한 고민 공유.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 11:20~오후 1:25</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 수강생들의 프반 방향성 우려 집중 분출. &#x27;개발·바이브코딩 비중이 너무 높은 것 아닌가&#x27; 질문에 강사가 반복 답변: 1~2주차는 유튜브 수익화 실전, 3주차 이후 바이브코딩, 5주차 n8n 순서. 튜브워커 점검 공지 공유 및 1주차 과제 제출 면제 안내.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 1:25~오후 5:16</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">질문</span> 실무 Q&amp;A 집중 시간대. 클로드 코드 강제 중단(ESC), 원격 데스크톱, 대본 글자수 오류 해결(바이트 수 활용), Opus vs Sonnet 모델 선택, 스킬 파일 관리 등 실전 운용 질문 활발. 조교 비빔이 벽타기 정리본(3/20·21일) 카페 업로드 안내.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 5:30~오후 6:55</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">이벤트</span> 특강 직전 분위기 고조. 클로드 컴퓨터 제어 기능 업데이트 화제, 캡컷 씨댄스 2.0 탑재 정보 공유. 바이브코딩 더 심도 있게 배우고 싶다는 수강생 요청에 강사가 &#x27;5주 분량 무시무시하게 남았다&#x27;며 안심. 줌 특강 링크 최종 공유.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 6:55~오후 9:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 줌 특강 병행 채팅방 활동. 초보 수강생들의 VSCode·클로드코드 세팅 오류 실시간 질문 폭증. 수강생 임@호(옥빛소리)가 클로드 활용 3대 원칙(&#x27;질문을 질문하라·Context 관리·Workflow&#x27;) 공유해 큰 호응. 프리미엄 노션 권한 미부여 문제 반복 접수.</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 9:00~오후 11:26</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 특강 사후 정리 및 추가 심화 논의. 수강생 이@헌(충사마)이 미스터비스트 시청 전략 MD 파일 자체 제작·공유. Vertex AI를 통한 Gemini API 연동 방법, API vs 구독 과금 구조 차이, 구글 클라우드 300달러 무료 크레딧 활용법 논의. 강사에게 실시간 화면 녹화 강의 방식 요청 접수.</div>
+</div></div>
+</div>
+<div id="day-7" class="tab-content" style="display:none">
+  <h2 class="day-title">3월 25일 수요일</h2>
+  <div class="stats-row">
+  <div class="stat-pill"><div class="stat-icon">💬</div><div class="num" data-target="901">0</div><div class="stat-label">메시지</div></div>
+  <div class="stat-pill"><div class="stat-icon">✅</div><div class="num" data-target="28">0</div><div class="stat-label">답변</div></div>
+  <div class="stat-pill"><div class="stat-icon">⏰</div><div class="stat-label">오전 12:02~오전 10:44</div></div>
+  <div class="stat-pill"><div class="stat-icon">🏆</div><div class="stat-label">MVP: 조@욱(잼스)</div></div>
+</div>
+  <div class="section-title">📢 주요 공지</div>
+<div class="ann-list"><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">[3/24일 화요일 프반 피드백 &amp; AI 특강] 19:00~21:00 노씨 스킬 개선 / 수강생 스킬 피드백, 21:00~24:00 질문답변 무한. Zoom: https://us06web.zoom.us/j/82115285088?pwd=9W7TEiKrcFAFsVjDbhrTRKAYbKRGFW.1</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 6:55</div>
+</div><div class="ann-card fade-in pri-high">
+  <div class="ann-badge">🚨 HIGH</div>
+  <div class="ann-content">[프리미엄반 전용 학습노트] 공개 링크: https://hypnotic-concrete-dcf.notion.site/1-32dc8b666740805fae1df22c420b14eb?pvs=74 — 노션 이메일 취합 전까지 공개 운영, 사용설명서 VOD 우선 제공 예정</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오전 9:48</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">강의 녹화본은 프리미엄반 전용 노션방에 업로드 예정. 참석 여부 무관하게 다시보기 가능</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오후 6:57</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">스킬 배포는 목요일에 진행 예정. 오늘(수요일) 강의는 스킬 개선 과정 공유 위주</div>
+  <div class="ann-meta">조교 나물쓰 · 오후 7:09</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">조교 신규 합류 안내: 이번 주 내 오토워커 시스템 전반 숙지 완료 목표, 다음 주부터 원격지원 제공 계획</div>
+  <div class="ann-meta">버터떡(조교) · 오후 8:21</div>
+</div><div class="ann-card fade-in pri-medium">
+  <div class="ann-badge">🚨 MEDIUM</div>
+  <div class="ann-content">목요일 강의 예고: 경제·심리학·역사 정보성 채널 스킬 집중 공개 및 미리캔버스 썸네일 제작 실습 포함</div>
+  <div class="ann-meta">개발남 노씨(오토워커) · 오전 10:20</div>
+</div></div>
+  <div class="section-title">❓ 핵심 Q&A</div>
+<div class="qa-list"><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">autoworkers-1st.zip과 autoworkers-1st-skill.zip이 동일한 파일인가요? 압축 풀어도 스킬 파일이 없습니다.</div>
+    <div class="qa-count">3회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>첫 번째 배포본(한글 채널명)과 두 번째 배포본(영어 채널명)의 차이. autoworkers-1st.zip 압축 해제 후 나오는 폴더를 클로드코드에 통째로 경로 복사·설치하면 됨. 큰 차이 없으며 한글 채널명 오류 발생 시 영문 버전 사용 권장</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">스킬설치</span><span class="qa-tag">파일배포</span><span class="qa-tag">윈도우</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">VSCode에서 bypass permissions(위험 권한 허용) 설정을 어떻게 하나요?</div>
+    <div class="qa-count">4회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>VSCode 확장프로그램 클로드코드 설치 화면 → 설정 버튼 → &#x27;Bypass Permissions&#x27; 항목 활성화. PDF 가이드(vscode_bypass_permissions.pdf) 참고 가능. 강사가 도움에 스타벅스 기프티콘으로 감사 표시</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">VSCode</span><span class="qa-tag">클로드코드</span><span class="qa-tag">설정</span><span class="qa-tag">권한</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">프리미엄반 노션 링크는 어디에 있나요? 접근 권한이 없다고 나옵니다.</div>
+    <div class="qa-count">6회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">조교|강사</div>
+      <p>https://hypnotic-concrete-dcf.notion.site/1-32dc8b666740805fae1df22c420b14eb — 현재 공개 상태로 운영 중. 노션 이메일 취합은 추후 진행 예정이므로 링크로 바로 접근 가능</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">노션</span><span class="qa-tag">프리미엄반</span><span class="qa-tag">권한</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">스킬 개선 후 대본 품질 향상 여부를 판단하는 기준은 무엇인가요? 에이전트가 많을수록 결과물이 좋아지나요?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">강사|경험자</div>
+      <p>품질 판단 기준은 결국 사용자 본인이 직접 결과물을 보고 판단하는 영역. 클로드에게 판단 기준 자체를 질문해서 스스로 기준을 세우고 반복 개선. 에이전트 수보다 스킬과 에이전트의 설계 품질이 결과를 결정함</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">스킬개선</span><span class="qa-tag">에이전트</span><span class="qa-tag">품질판단</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">버텍스AI(Vertex AI) 300달러 크레딧으로 클로드 API 비용을 대체할 수 있나요?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>Vertex AI에서 API 발급 후 연결하면 구글 클라우드 크레딧으로 Gemini 사용 가능. 신규 가입 시 90일간 $300 무료 크레딧 제공. 단 Claude와는 별개 과금 구조</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">VertexAI</span><span class="qa-tag">API</span><span class="qa-tag">비용</span><span class="qa-tag">Gemini</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">클로드에서 Gemini API를 연동해서 이미지 생성에 활용할 수 있나요?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>Vertex AI API로 Gemini 호출 가능하나 별도 API 과금 발생. 구독 요금제와 API는 별개 과금 구조. 구글 계정 자동화(브라우저 조작 방식)는 약관 위반으로 계정 삭제 위험 있어 비권장. 수익 발생 후 API 과금 투자가 현실적</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">Gemini</span><span class="qa-tag">API</span><span class="qa-tag">이미지생성</span><span class="qa-tag">비용</span></div>
+  </div>
+</div><div class="qa-card fade-in-qa" onclick="this.classList.toggle('open')">
+  <div class="qa-header">
+    <div class="qa-q-icon">Q</div>
+    <div class="qa-question">유튜브 채널 계정 분리를 어떻게 해야 하나요? 한 폰에 여러 계정을 만들어도 되나요?</div>
+    <div class="qa-count">2회</div>
+  </div>
+  <div class="qa-body">
+    <div class="qa-answer">
+      <div class="qa-answer-badge">경험자</div>
+      <p>원칙은 1계정-1채널-1애드센스 매칭. 다만 여러 편법이 존재하며 유튜브 채널 운영 전문 채널(유랑 등) 참고 권장</p>
+    </div>
+    <div class="qa-tags"><span class="qa-tag">유튜브채널</span><span class="qa-tag">계정분리</span><span class="qa-tag">애드센스</span></div>
+  </div>
+</div></div>
+  <div class="section-title">💡 인사이트 & 팁</div>
+<div class="insight-list"><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 클로드 활용의 핵심 3요소: ①질문을 질문하라(원하는 것을 먼저 클로드에게 어떻게 접근할지 물어보기), ②context 관리, ③workflow 설계. 이 세 가지만 체화하면 비개발자도 자동화 파이프라인 구축 가능</div>
+  <div class="insight-author">— 임@호(옥빛소리)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">전략</div>
+  <div class="insight-content">💡 벤치마킹 채널 대본 추출 프로세스: 벤치마킹 채널 선정 → 대본 3~5개 스크래핑(grabbit 크롬 확장 또는 notebook LM에 유튜브 URL 붙여넣기 후 자막 요청) → 글 특징·구조 분석 → MD 지침서 작성 → 대본 생성. 채널 카피 시 영상 10~30개 대본 일괄 추출 가능</div>
+  <div class="insight-author">— 조@욱(잼스)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 윈도우에서 Claude Code 팀메이트(멀티 에이전트) 네이티브 실행: psmux 설치(https://github.com/psmux/psmux) 후 PowerShell에서 tmux 실행 → Claude --dangerously-skip-permissions 입력. WSL 없이 윈도우 환경에서 tmux 기반 병렬 작업 가능</div>
+  <div class="insight-author">— 조@욱(잼스)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">수익화</div>
+  <div class="insight-content">💡 클로드 맥스 구독 전 저비용 대안: 일반 질의응답은 Gemini(3개월 무료) 또는 구글 AI 스튜디오 활용으로 Claude 토큰 절약. PDF 문서 분석은 Google Notebook LM(무료) 활용 권장. 맥스 토큰은 핵심 스킬 개발·실행에 집중 사용</div>
+  <div class="insight-author">— 구@기(쇼츠코인)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">문제해결</div>
+  <div class="insight-content">💡 스킬 MD 파일 구조 이해: 스킬은 작업 지시서(에이전트별 역할 명세), 에이전트는 파트별 담당 직원 개념. MD 파일 내 10개 파트가 유기적으로 연결되어 대본 스타일링을 결정. 클로드코드가 MD 파일 기반으로 자동 처리하므로 구조 전체를 이해하지 않아도 결과 산출 가능</div>
+  <div class="insight-author">— 조@욱(잼스)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 이라스토야(https://www.irasutoya.com/) — 일본산 무료 일러스트 사이트. 유사 썸네일 레퍼런스 검색 및 썸네일 제작 소재로 활용 가능. 저작권 무료 범위 내 상업 이용 가능</div>
+  <div class="insight-author">— 조@욱(잼스)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">수익화</div>
+  <div class="insight-content">💡 Vertex AI Google Cloud 신규 가입 시 $300(약 43만원) 90일 크레딧 제공. 이를 통해 Gemini API 호출 비용 충당 가능. Gemini는 한글 텍스트 렌더링 품질이 우수하여 썸네일 내 한글 삽입 시 활용 가치 높음</div>
+  <div class="insight-author">— 정@수(아는아이)</div>
+</div><div class="insight-card fade-in">
+  <div class="insight-cat">도구추천</div>
+  <div class="insight-content">💡 수강생 자발 제작 tool — 벽타기 요약 사이트(https://krroki.github.io/autoworker-digest/): 사담방 채팅 내용을 코드로 자동 파싱·정리하여 웹에서 한눈에 확인. 직접 바이브코딩으로 제작한 사례</div>
+  <div class="insight-author">— 이@헌(충사마)</div>
+</div></div>
+  <div class="section-title">🕐 타임라인</div>
+<div class="timeline"><div class="tl-item fade-in">
+  <div class="tl-time">오전 12:02~오전 3:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 전날 강의 마무리 직후 새벽 자율학습 세션 개시. psmux(윈도우 tmux) 도구 공유, 맥 vs 윈도우 개발 환경 비교 토론, Vertex AI $300 크레딧 정보 공유. 새벽반 수강생들이 스킬 설치 오류(autoworkers-1st.zip 구조 혼동)·대본 추출 방법 집중 질문</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 3:00~오전 4:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 잼스님이 자체 제작 대본 일괄 추출 도구 시연(삭제된 메시지 다수). 수강생들의 grabbit 확장 프로그램 설치·사용법 실시간 지원. notebook LM에 유튜브 URL 붙여넣기로 자막 추출하는 대안 제시. 공기관 망 제한으로 설치 불가한 수강생 지원 시도. 잼스님 벤치마킹 프로세스 전체 구조 설명</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 4:10~오전 9:13</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">일상</span> 새벽반 활동 마무리. 잼스님 작성 경제 유튜브 대본 샘플(한국 고속도로 휴게소 vs 미국 버키스 비교 분석) 공유. 미줌마파워님 클로드 맥스 결제 후 실험 시작 보고. 오전 7~9시 구간 활동 소강</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오전 9:13~오후 6:55</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">공지</span> 아침반 활동 재개. 충사마님이 벽타기 요약 사이트(krroki.github.io) 공유. VSCode bypass permissions 설정 방법 질의응답(가든님 PDF 가이드 공유, 강사 스벅 기프티콘 감사 표시). 강사가 프리미엄반 노션 공개 링크 공지. 목요일 강의 예고(경제·심리·역사 스킬 배포, 미리캔버스 썸네일 실습). 튜브워커 점검 중 접속 장애 보고</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 6:55~오후 8:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">학습</span> 프리미엄반 라이브 강의 시작(Zoom 입장). 강의 접근 방법 혼란(링크 미인지, 노션 권한 오류)으로 조교 집중 지원. 강사가 스킬 야무지게 개선 과정 공유. 옥빛소리님이 클로드 활용 3대 원칙(&#x27;질문을 질문하라&#x27;, context 관리, workflow) 정리해 공유 — 동기들에게 큰 호응</div>
+</div><div class="tl-item fade-in">
+  <div class="tl-time">오후 8:30~오후 10:44</div>
+  <div class="tl-dot"></div>
+  <div class="tl-content"><span class="tl-tag">질문</span> 라이브 Q&amp;A 세션 후반. 충사마님 beast-success.md / test.md 파일 공유(미스터비스트 영상 구조 기반 스킬 개선본). Gemini-Claude API 연동 시도 및 한계 논의(Vertex AI 경로 확인, 약관 위반 위험 확인). CapCut 2.0 씨댄스 업데이트 공유. 유튜브 계정 분리 방법 질의. 10:44 마지막 메시지로 당일 활동 종료</div>
+</div></div>
+</div>
+<div id="faq" class="tab-content" style="display:none">
+  <h2 class="day-title">📊 자주 묻는 질문 (전체 기간)</h2>
+  <div class="faq-chart"><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">클로드 프로 vs 맥스 — 어떤 플랜을 써야 하나요? 스킬 제작·대본 생</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:100%">12회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">튜브워커(오토워커 프로그램) 신청·수령 방법은?</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:66%">8회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">스킬 폴더 다운로드 후 어떻게 클로드 코드에서 실행하나요?</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:66%">8회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">그록(Grok) SSO·쿠키 연동을 해도 영상 생성이 안 됩니다.</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:58%">7회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">노트북 한 대로 가능한가요? 추가 장비(모니터, 포터블 모니터)가 필요한</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:50%">6회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">클로드 리밋(사용량 제한)에 걸렸는데 어떻게 해야 하나요?</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:50%">6회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">캡컷에서 튜브워커 프로젝트 파일이 보이지 않습니다.</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:50%">6회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">프리미엄반 노션 링크는 어디에 있나요? 접근 권한이 없다고 나옵니다.</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:50%">6회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">스킬 제작 및 대본 생성은 Claude Code에서 해야 하나요, 일반 </div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:41%">5회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">튜브워커 메일을 아직 못 받았는데 언제 받을 수 있나요?</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:41%">5회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">이미지와 자막 싱크가 맞지 않거나 이미지가 생성 실패합니다.</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:41%">5회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">노션 링크가 안 열리거나 강의 자료를 어디서 봐야 하나요?</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:41%">5회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">이미지에 외국인이 나오는데 한국인으로 뽑으려면 어떻게 해야 하나요?</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:41%">5회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">튜브워커 사이트가 접속이 안 된다 / 언제 다시 열리나?</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:41%">5회</div></div>
+</div><div class="faq-bar-row fade-in">
+  <div class="faq-bar-label">렌더링은 클라우드에서 처리되나요, 로컬에서 처리되나요? PC 사양은 얼마</div>
+  <div class="faq-bar-wrap"><div class="faq-bar" style="width:33%">4회</div></div>
+</div></div>
+  <div class="faq-answers">
+    <div class="faq-item fade-in"><strong>Q. 클로드 프로 vs 맥스 — 어떤 플랜을 써야 하나요? 스킬 제작·대본 생성 시 프로로 충분한가요?</strong><p>A. 프로는 Opus 사용 시 5시간 롤링 한도·1주일 한도로 스킬 1~2개 만들면 금방 소진됩니다. 맥스 x5가 중소기업 수준 사용량에 적합하며, x20은 동시 4개 이상 작업 시 해당합니다. 낮은 플랜으로 시작 후 사용량 파악 뒤 차액만 내고 업그레이드 권장. 업그레이드 시 잔여 기간 차액만 결제됩니다.</p></div><div class="faq-item fade-in"><strong>Q. 튜브워커(오토워커 프로그램) 신청·수령 방법은?</strong><p>A. 스킬로 만든 대본을 카페 과제제출 게시판에 업로드하면, 과제 확인 후 이메일로 프로그램 접속 정보 발송. 과제 제출 전 신청 불가. 세부 VOD 별도 제공 예정.</p></div><div class="faq-item fade-in"><strong>Q. 스킬 폴더 다운로드 후 어떻게 클로드 코드에서 실행하나요?</strong><p>A. 스킬 폴더를 바탕화면에 저장 후 클로드 코드(데스크탑 앱) 좌측 &#x27;폴더 열기&#x27;로 해당 폴더 지정. 이후 &#x27;이 폴더 분석하고 실행해줘&#x27; 명령. 클로드가 자동 세팅 진행. VS Code는 파일 보기 편의용이며 필수 아님.</p></div><div class="faq-item fade-in"><strong>Q. 그록(Grok) SSO·쿠키 연동을 해도 영상 생성이 안 됩니다.</strong><p>A. 그록이 유료화되면서 외부 연동을 제한적으로 막아 됐다 안됐다 반복. 유료 가입해도 불안정. 이미지만 전부 생성 완료되면 프로젝트 싱크는 맞으므로 그록 영상 없이 캡컷 프로젝트 내보내기 진행 가능. 조교 대국밥이 해결 방안 모색 중.</p></div><div class="faq-item fade-in"><strong>Q. 노트북 한 대로 가능한가요? 추가 장비(모니터, 포터블 모니터)가 필요한가요?</strong><p>A. 노트북 한 대로 충분. 강사는 노트북+외부 모니터 27인치 조합 추천. 포터블 모니터(~10만 원 초반)나 중고 태블릿을 외부 모니터로 연결 가능. 컴퓨터 교체보다 포터블 모니터 먼저 추천. 사양 고민은 오토위키 공지의 최소/권장 사양을 클로드에 붙여넣고 구매 조건 질문하면 됨.</p></div><div class="faq-item fade-in"><strong>Q. 클로드 리밋(사용량 제한)에 걸렸는데 어떻게 해야 하나요?</strong><p>A. 클로드 Pro는 첫 사용 후 5시간 리밋. 맥스 요금제로 업그레이드하면 사용량 증가. 리밋 시 컴퓨터 재부팅 또는 계정 재로그인 시도 가능. 대본 생성 시 레퍼런스 영상 대본이 길수록 토큰 소모가 빠름.</p></div><div class="faq-item fade-in"><strong>Q. 캡컷에서 튜브워커 프로젝트 파일이 보이지 않습니다.</strong><p>A. 튜브워커에서 다운로드한 프로젝트 압축 파일을 반드시 풀어야 함. 풀린 폴더를 캡컷 Draft 경로(윈도우: Local\CapCut\User Data\Projects\com.lveditor.draft)에 넣은 후 캡컷 재시작. 폴더 안에 같은 이름의 폴더가 중첩되어 있다면 내부 폴더를 꺼내야 함.</p></div><div class="faq-item fade-in"><strong>Q. 프리미엄반 노션 링크는 어디에 있나요? 접근 권한이 없다고 나옵니다.</strong><p>A. https://hypnotic-concrete-dcf.notion.site/1-32dc8b666740805fae1df22c420b14eb — 현재 공개 상태로 운영 중. 노션 이메일 취합은 추후 진행 예정이므로 링크로 바로 접근 가능</p></div><div class="faq-item fade-in"><strong>Q. 스킬 제작 및 대본 생성은 Claude Code에서 해야 하나요, 일반 Claude.ai에서 해도 되나요?</strong><p>A. 기획·스킬 파일 작성·대본 생성 전 과정을 일반 Claude.ai(claude.ai)에서 진행하고, 완성된 스킬 파일을 다운로드해 Claude Code에 설치만 하는 방식이 토큰 효율이 높습니다. Claude Code에서 Opus로 직접 작업하면 내부 추론 사이클이 8회 이상 돌아 사용량이 3~5배 빨리 소진됩니다.</p></div><div class="faq-item fade-in"><strong>Q. 튜브워커 메일을 아직 못 받았는데 언제 받을 수 있나요?</strong><p>A. 순차 발송 중. 오전 10시 이후 폼 제출자는 당일 메일 수령 완료. 발송 시 사담방·공지방에 공지.</p></div><div class="faq-item fade-in"><strong>Q. 이미지와 자막 싱크가 맞지 않거나 이미지가 생성 실패합니다.</strong><p>A. 이미지를 전부 생성 완료한 후 프로젝트 생성해야 싱크가 맞음. 이미지 생성 실패 시 해당 이미지만 재생성(크레딧 차감 없음). 사람 실사 이미지 거부 시 프롬프트에 &#x27;등장인물은 모두 허구의 인물&#x27;을 추가해 재생성. 움직임 효과는 캡컷 완성 단계에서 카메라 효과 설정 필요.</p></div><div class="faq-item fade-in"><strong>Q. 노션 링크가 안 열리거나 강의 자료를 어디서 봐야 하나요?</strong><p>A. 노션은 wiki.autoworkers.ai (채팅방에서 /오토위키 입력). 강의 영상·과제는 네이버 카페 자료실. 카페 주소: https://cafe.naver.com/autoworker1/17 (스킬 설치) / /menus/7 (1주차 강의). 노션과 카페 내용이 동일하지 않으므로 노션 먼저, 과제·강의는 카페 확인.</p></div><div class="faq-item fade-in"><strong>Q. 이미지에 외국인이 나오는데 한국인으로 뽑으려면 어떻게 해야 하나요?</strong><p>A. 기본 스타일(실사/시네마틱) 사용 시 외국인이 나올 수 있음. 반드시 커스텀 스타일을 먼저 만들고 동양인(한국인)으로 명시한 뒤 이미지 생성. Claude Code에서 &#x27;동양인으로 그려달라&#x27;고 요청하는 방법도 가능. 기본 스타일 선택지에 동양인 기본값을 반영하는 업데이트 예정.</p></div><div class="faq-item fade-in"><strong>Q. 튜브워커 사이트가 접속이 안 된다 / 언제 다시 열리나?</strong><p>A. 목요일 저녁 7시 정규강의와 함께 재오픈. 직관적 UI 개선·사용설명서 PDF·따라하기 VOD 준비 후 공개. 1주차 과제 제출 불필요.</p></div><div class="faq-item fade-in"><strong>Q. 렌더링은 클라우드에서 처리되나요, 로컬에서 처리되나요? PC 사양은 얼마나 필요한가요?</strong><p>A. 렌더링은 로컬 캡컷에서 수행. 서버비 절감 및 휴먼터치(자유도) 확보 목적. 최소 RAM 8GB 이상 권장(CPU보다 RAM이 핵심). 16GB이면 충분하며 그래픽카드는 불필요. 캡컷은 동시 내보내기 불가, 순차 처리. 렌더링 중 다른 작업은 가능.</p></div>
+  </div>
+</div>
+<div id="links" class="tab-content" style="display:none">
+  <h2 class="day-title">🔗 링크 모음</h2>
+  <h3 class="link-cat">📎 참고자료</h3>
+<div class="link-grid"><a href="https://wiki.autoworkers.ai/" target="_blank" class="link-card fade-in">
+  <div class="link-title">오토워커 1기 공식 위키 - 공지사항·컴퓨터 사양 안내·카톡방 정리</div>
+  <div class="link-meta">개발남 노씨(오토워커) · 2026-03-18</div>
+</a><a href="https://cafe.naver.com/aut" target="_blank" class="link-card fade-in">
+  <div class="link-title">오토워커 1기 네이버 카페</div>
+  <div class="link-meta">공지 자동게시 · 2026-03-18</div>
+</a><a href="https://naver.me/xsZACT0D" target="_blank" class="link-card fade-in">
+  <div class="link-title">오토워커 1기 네이버 카페 초대장 링크</div>
+  <div class="link-meta">디하클 스태프 둘리 · 2026-03-18</div>
+</a><a href="https://m.danawa.com/product/product.html?code=58845818&amp;cateCode=112756" target="_blank" class="link-card fade-in">
+  <div class="link-title">다나와 데스크탑 후보 1 (최@영(달씨) 검토)</div>
+  <div class="link-meta">최@영(달씨) · 2026-03-18</div>
+</a><a href="https://m.danawa.com/product/product.html?code=108355517&amp;cateCode=11236094" target="_blank" class="link-card fade-in">
+  <div class="link-title">다나와 데스크탑 후보 2 (최@영(달씨) 검토)</div>
+  <div class="link-meta">최@영(달씨) · 2026-03-18</div>
+</a><a href="https://m.danawa.com/product/product.html?code=79084673&amp;cateCode=11236094" target="_blank" class="link-card fade-in">
+  <div class="link-title">다나와 데스크탑 후보 3 (최@영(달씨) 검토)</div>
+  <div class="link-meta">최@영(달씨) · 2026-03-18</div>
+</a><a href="https://cafe.naver.com/f-e/cafes/31687042/menus/12?viewType=L" target="_blank" class="link-card fade-in">
+  <div class="link-title">오토워커 카페 Q&amp;A 질문 게시판</div>
+  <div class="link-meta">공지 자동게시 · 2026-03-18</div>
+</a><a href="https://hypnotic-concrete-dcf.notion.site/3-20-329c8b66674080649962f5b1c1edaa0c" target="_blank" class="link-card fade-in">
+  <div class="link-title">3/20 주요 공지사항 노션 페이지</div>
+  <div class="link-meta">개발남 노씨(오토워커) · 2026-03-20</div>
+</a><a href="https://cafe.naver.com/autoworker1" target="_blank" class="link-card fade-in">
+  <div class="link-title">오토워커 1기 네이버 카페 (VOD·과제제출)</div>
+  <div class="link-meta">김@철(플랜PLAN) · 2026-03-20</div>
+</a><a href="http://pf.kakao.com/_EJixlG" target="_blank" class="link-card fade-in">
+  <div class="link-title">디하클 1:1 고객센터 카카오채널</div>
+  <div class="link-meta">디하클 스태프 둘리 · 2026-03-20</div>
+</a><a href="https://www.youtube.com/watch?v=m_67BIzkN-w" target="_blank" class="link-card fade-in">
+  <div class="link-title">다크모드와 시력 문제 관련 의학 정보 (유튜브)</div>
+  <div class="link-meta">김@수(배고픈 나그네) · 2026-03-20</div>
+</a><a href="https://infobaz.com/%EA%B7%B8%EB%A1%9D-%EB%AC%B4%EB%A3%8C-%EC%B0%A8%EB%8B%A8-%ED%9B%84-%EC%B0%BE%EC%9D%80-%EB%B0%A9%EB%B2%95/" target="_blank" class="link-card fade-in">
+  <div class="link-title">그록 무료 차단 후 찾은 방법 (인포바즈 블로그)</div>
+  <div class="link-meta">권@근(다행) · 2026-03-22</div>
+</a><a href="https://youtu.be/TER4cdB9z80" target="_blank" class="link-card fade-in">
+  <div class="link-title">디하클 스태프 둘리 유튜브 영상 (자기소개/자랑)</div>
+  <div class="link-meta">디하클 스태프 둘리 · 2026-03-22</div>
+</a><a href="https://forms.gle/8ZHuaetveHuKAdKN7" target="_blank" class="link-card fade-in">
+  <div class="link-title">1주차 프반 특강 참가 신청 구글폼 (스킬 업로드 포함)</div>
+  <div class="link-meta">개발남 노씨(오토워커) · 2026-03-23</div>
+</a><a href="https://docs.google.com/forms/d/e/1FAIpQLScMxJg-P95GzdV3M2_jx5sHjQ0oqnDWFC72wTFNsuOusUWfMw/viewform?usp=send_form" target="_blank" class="link-card fade-in">
+  <div class="link-title">크레딧 구매 / 오류 환급 신청 구글폼</div>
+  <div class="link-meta">조교 나물쓰 · 2026-03-23</div>
+</a><a href="https://devdesign-kr.notion.site/Claude-Code-329f8939a2c380aea382f44c7eacb77f" target="_blank" class="link-card fade-in">
+  <div class="link-title">Claude Code 노션 정리 문서 (조@욱 작성)</div>
+  <div class="link-meta">조@욱(잼스) · 2026-03-23</div>
+</a><a href="https://cafe.naver.com/f-e/cafes/31687042/menus/31?viewType=L" target="_blank" class="link-card fade-in">
+  <div class="link-title">오토워커 카페 질의응답 정리 게시판</div>
+  <div class="link-meta">비빔(조교) · 2026-03-23</div>
+</a><a href="https://www.notion.so/32cc8b6667408039b4cdd423058052f7?v=32cc8b666740809b8665000cdbe7c3a6&amp;source=copy_link" target="_blank" class="link-card fade-in">
+  <div class="link-title">오토워커 질의응답 정리 노션 (18·19일자 업로드 완료)</div>
+  <div class="link-meta">비빔(조교) · 2026-03-23</div>
+</a><a href="https://www.youtube.com/watch?v=6K2QFZNBvEs&amp;list=RD6K2QFZNBvEs&amp;start_radio=1" target="_blank" class="link-card fade-in">
+  <div class="link-title">AI 음악 + AI 영상 뮤직비디오 레퍼런스 (제작 기간 2개월)</div>
+  <div class="link-meta">최@원(리마인드) · 2026-03-23</div>
+</a><a href="https://wiki.autoworkers.ai/1-32cc8b6667408004af2df97309e0d365" target="_blank" class="link-card fade-in">
+  <div class="link-title">튜브워커 공지 — 사이트 점검 및 과제/챌린지 안내</div>
+  <div class="link-meta">이@미(비브온) · 2026-03-24</div>
+</a><a href="https://m.cafe.naver.com/ca-fe/web/cafes/dinohighclass/articles/219299" target="_blank" class="link-card fade-in">
+  <div class="link-title">nexlev 관련 카페 게시글 (유튜브 도구 비용 비교)</div>
+  <div class="link-meta">조@욱(잼스) · 2026-03-24</div>
+</a><a href="https://hypnotic-concrete-dcf.notion.site/1-32dc8b666740805fae1df22c420b14eb" target="_blank" class="link-card fade-in">
+  <div class="link-title">프리미엄반 전용 노션 페이지</div>
+  <div class="link-meta">개발남 노씨(오토워커) · 2026-03-24</div>
+</a><a href="https://cafe.naver.com/f-e/cafes/31687042/articles/450" target="_blank" class="link-card fade-in">
+  <div class="link-title">카톡방 벽타기 정리본 — 3월 20일자</div>
+  <div class="link-meta">비빔(조교) · 2026-03-24</div>
+</a><a href="https://cafe.naver.com/f-e/cafes/31687042/articles/452" target="_blank" class="link-card fade-in">
+  <div class="link-title">카톡방 벽타기 정리본 — 3월 21일자</div>
+  <div class="link-meta">비빔(조교) · 2026-03-24</div>
+</a><a href="https://x.com/capcutapp/status/2036202286809227635" target="_blank" class="link-card fade-in">
+  <div class="link-title">캡컷 씨댄스(Sieverse) 2.0 탑재 공식 트윗</div>
+  <div class="link-meta">최@원(리마인드) · 2026-03-24</div>
+</a><a href="https://hypnotic-concrete-dcf.notion.site/1-32dc8b666740805fae1df22c420b14eb?pvs=74" target="_blank" class="link-card fade-in">
+  <div class="link-title">프리미엄반 전용 학습노트 (노션)</div>
+  <div class="link-meta">개발남 노씨(오토워커) · 2026-03-25</div>
+</a><a href="https://x.com/capcutapp/status/2036202286809227635?s=46" target="_blank" class="link-card fade-in">
+  <div class="link-title">CapCut 2.0 — AI 댄스(씨댄스) 기능 탑재 발표</div>
+  <div class="link-meta">최@원(리마인드) · 2026-03-25</div>
+</a><a href="https://hypnotic-concrete-dcf.notion.site/1-32dc8b666740805fae1df22c420b14eb?p=32dc8b66674080178449de39dd7d061d&amp;pm=s" target="_blank" class="link-card fade-in">
+  <div class="link-title">프리미엄반 노션 — 오늘 강의 특정 페이지 직접 링크</div>
+  <div class="link-meta">이@헌(충사마) · 2026-03-25</div>
+</a></div><h3 class="link-cat">📚 강의/튜토리얼</h3>
+<div class="link-grid"><a href="https://youtu.be/g1uVZMIvy1M?si=ejyUy4ZBGdd0D0og" target="_blank" class="link-card fade-in">
+  <div class="link-title">포터블 모니터 추천 유튜브 영상</div>
+  <div class="link-meta">이@헌(충사마) · 2026-03-18</div>
+</a><a href="https://hypnotic-concrete-dcf.notion.site/328c8b66674081b7a416f5f49154a721" target="_blank" class="link-card fade-in">
+  <div class="link-title">오토워커 1기 강의 자료 노션 페이지</div>
+  <div class="link-meta">개발남 노씨(오토워커) · 2026-03-19</div>
+</a><a href="https://wiki.autoworkers.ai/329c8b6667408018b492d3bfff3a8967" target="_blank" class="link-card fade-in">
+  <div class="link-title">튜브워커 사용법 노션 페이지 (카페 미접속자용)</div>
+  <div class="link-meta">개발남 노씨(오토워커) · 2026-03-20</div>
+</a><a href="https://cafe.naver.com/f-e/cafes/31687042/menus/7" target="_blank" class="link-card fade-in">
+  <div class="link-title">네이버 카페 1주차 강의 게시판</div>
+  <div class="link-meta">조교 나물쓰 · 2026-03-21</div>
+</a><a href="https://cafe.naver.com/autoworker1/33" target="_blank" class="link-card fade-in">
+  <div class="link-title">과제 제출 방법 안내 (카페 게시글 33)</div>
+  <div class="link-meta">정@윤(융이) · 2026-03-21</div>
+</a><a href="https://youtu.be/zE-gV0doB9U" target="_blank" class="link-card fade-in">
+  <div class="link-title">클로드 원격제어 기능 소개 유튜브 영상</div>
+  <div class="link-meta">이@헌(충사마) · 2026-03-24</div>
+</a></div><h3 class="link-cat">🎥 Zoom</h3>
+<div class="link-grid"><a href="https://us06web.zoom.us/j/84893604275?pwd=O05KB949s4G7FkOcDCO2GI4NSZKhFX.1" target="_blank" class="link-card fade-in is-expired">
+  <div class="link-title">오토워커 1기 정규강의 1강 Zoom 링크 (ID: 848 9360 4275 / 암호: 629075)</div>
+  <div class="link-meta">크리스(디하클스태프) · 2026-03-19</div>
+</a><a href="https://us04web.zoom.us/j/79089015138?pwd=wNiBErwX2M7VxwTAWvVLmMMJv6LXEs.1" target="_blank" class="link-card fade-in is-expired">
+  <div class="link-title">3월 21일 오후 2시 보강수업 줌 링크</div>
+  <div class="link-meta">조교 나물쓰 · 2026-03-21</div>
+</a><a href="https://us06web.zoom.us/j/87000831084?pwd=U9duVajUaSrLq7mroclxhXox39y1AV.1" target="_blank" class="link-card fade-in is-expired">
+  <div class="link-title">일요일 추가특강 줌 링크 (고수방 — 터미널·원격 강의)</div>
+  <div class="link-meta">조교 나물쓰 · 2026-03-22</div>
+</a><a href="https://us06web.zoom.us/j/82115285088?pwd=9W7TEiKrcFAFsVjDbhrTRKAYbKRGFW.1" target="_blank" class="link-card fade-in is-expired">
+  <div class="link-title">3/24 화요일 프반 피드백 &amp; AI 특강 줌 링크</div>
+  <div class="link-meta">개발남 노씨(오토워커) · 2026-03-24</div>
+</a></div><h3 class="link-cat">🔧 도구</h3>
+<div class="link-grid"><a href="https://cafe.naver.com/autoworker1/17" target="_blank" class="link-card fade-in">
+  <div class="link-title">튜브워커 프로그램 다운로드 (과제 제출자 대상)</div>
+  <div class="link-meta">개발남 노씨(오토워커) · 2026-03-20</div>
+</a><a href="https://remotedesktop.google.com/support/" target="_blank" class="link-card fade-in">
+  <div class="link-title">구글 크롬 원격 지원 (조교 원격 트러블슈팅용)</div>
+  <div class="link-meta">조교 나물쓰 · 2026-03-20</div>
+</a><a href="https://drive.google.com/drive/folders/1tMndyZyK14w4KdQHag0B4kipkRLZNh3F" target="_blank" class="link-card fade-in">
+  <div class="link-title">스킬 파일 구글 드라이브 다운로드</div>
+  <div class="link-meta">김@구(오슴오) · 2026-03-21</div>
+</a><a href="https://claude.com/download" target="_blank" class="link-card fade-in">
+  <div class="link-title">클로드 데스크탑 앱 다운로드</div>
+  <div class="link-meta">조교 나물쓰 · 2026-03-21</div>
+</a><a href="http://ec2-43-203-100-223.ap-northeast-2.compute.amazonaws.com:8000/" target="_blank" class="link-card fade-in">
+  <div class="link-title">튜브워커(TubeWorker) 서비스 접속 주소</div>
+  <div class="link-meta">조교 나물쓰 · 2026-03-22</div>
+</a><a href="https://discuss.pytorch.kr/t/claude-hud-claude-code-statusline/8690" target="_blank" class="link-card fade-in">
+  <div class="link-title">Claude HUD — Claude Code Statusline 플러그인 (PyTorch KR 포럼)</div>
+  <div class="link-meta">조@욱(잼스) · 2026-03-22</div>
+</a><a href="https://chat.qwen.ai/c/c2d91941-37c1-47db-b0a7-27458455b0af" target="_blank" class="link-card fade-in">
+  <div class="link-title">Qwen AI (중국) — 무료 영상 생성 서비스 (5초 고퀄 클립)</div>
+  <div class="link-meta">윤@수(브리 노마드) · 2026-03-22</div>
+</a><a href="https://labs.google/fx/tools/whisk" target="_blank" class="link-card fade-in">
+  <div class="link-title">구글 Whisk (이미지 생성 도구, 쿠키 에디터 연동 필요)</div>
+  <div class="link-meta">조교 나물쓰 · 2026-03-23</div>
+</a><a href="https://www.nexlev.io/" target="_blank" class="link-card fade-in">
+  <div class="link-title">Nexlev — 유튜브 키워드 분석 도구</div>
+  <div class="link-meta">조@욱(잼스) · 2026-03-24</div>
+</a><a href="https://github.com/psmux/psmux" target="_blank" class="link-card fade-in">
+  <div class="link-title">psmux — 윈도우 네이티브 tmux 구현체</div>
+  <div class="link-meta">조@욱(잼스) · 2026-03-25</div>
+</a><a href="https://cloud.google.com/ai" target="_blank" class="link-card fade-in">
+  <div class="link-title">Google Cloud AI — Vertex AI 신규 가입 시 $300 크레딧</div>
+  <div class="link-meta">이@종(부바) · 2026-03-25</div>
+</a><a href="https://www.irasutoya.com/" target="_blank" class="link-card fade-in">
+  <div class="link-title">이라스토야 — 무료 일본 일러스트 소재 사이트</div>
+  <div class="link-meta">조@욱(잼스) · 2026-03-25</div>
+</a><a href="https://krroki.github.io/autoworker-digest/" target="_blank" class="link-card fade-in">
+  <div class="link-title">오토워커 사담방 요약 사이트 (수강생 자체 제작)</div>
+  <div class="link-meta">이@헌(충사마) · 2026-03-25</div>
+</a></div>
+</div>
+<footer>
+  <p>오토워커 1기 프리미엄반 사담방 벽타기 자동 정리</p>
+  <p>AI 기반 자동 생성 · 2026-03-25 기준</p>
+</footer>
+</div>
+<div class="fab-wrap">
+  <button class="fab" id="fab-top" title="맨 위로" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</div>
+<script>
+// Dark mode
+(function(){
+  const btn=document.getElementById('dark-toggle');
+  const saved=localStorage.getItem('theme');
+  if(saved==='dark')document.body.classList.add('dark');
+  btn.onclick=()=>{document.body.classList.toggle('dark');localStorage.setItem('theme',document.body.classList.contains('dark')?'dark':'light');btn.textContent=document.body.classList.contains('dark')?'☀️':'🌙'};
+  if(document.body.classList.contains('dark'))btn.textContent='☀️';
+})();
+// Scroll progress
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progress').style.width=(window.scrollY/h*100)+'%';
+  const fab=document.getElementById('fab-top');
+  fab.classList.toggle('visible',window.scrollY>400);
+});
+// Tab switch
+function switchTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.style.display='none');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById(id);if(el)el.style.display='block';
+  if(event&&event.target)event.target.classList.add('active');
+  observeAll();
+  window.scrollTo({top:document.querySelector('.tab-bar-wrap').offsetTop-10,behavior:'smooth'});
+}
+// Intersection Observer
+function observeAll(){
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        en.target.classList.add('visible');
+        if(en.target.classList.contains('num')&&!en.target._counted){
+          en.target._counted=true;animateCount(en.target);
+        }
+      }
+    });
+  },{threshold:0.1});
+  document.querySelectorAll('.fade-in,.fade-in-qa,.num').forEach(el=>obs.observe(el));
+}
+function animateCount(el){
+  const target=parseInt(el.dataset.target)||0;
+  const duration=1200;const start=performance.now();
+  function update(now){
+    const p=Math.min((now-start)/duration,1);
+    el.textContent=Math.floor(p*target).toLocaleString();
+    if(p<1)requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+observeAll();
+</script>
+</body>
+</html>
